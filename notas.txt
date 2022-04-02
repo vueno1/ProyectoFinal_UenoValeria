@@ -1,0 +1,139 @@
+1° entrega: 
+
+2 rutas con Router. 
+    /productos 
+    /carrito 
+
+puertos: 
+    8080 para desarrollo 
+    process.env.PORT para producción (glitch)
+
+/productos: 
+    get (/:id) -> devuelve un producto
+        listar todos los productos
+        (disponible para usuarios y administradores)
+    
+    post (/) incorporar productos (para administradores)
+    put (/:id) actualizar 1 producto (para administradores)
+    delete (/:id) eliminar 1 producto (para administradores)
+
+/api/carritos: 
+    post (/) crear carrito y devolver id (usuarios y administradores)
+    delete (/:id) elimina id + borra carrito (usuarios y administradores)
+    get (/:id/productos) me muestra todos los productos del listado (usuarios y administradores)
+    post (/:id/productos) añadir producto x id al carrito (usuarios y administradores)
+    delete (/:id/productos/:id_prod) eliminar producto x id del carrito (usuarios y administradores)
+
+1  variable boolean para administrador (login)
+si es true o false, me deja ver las rutas. 
+mostrar error si no esta autorizado?
+
+productos: 
+    id 
+    timestamp (Date.now())
+    nombre
+    descripcion 
+    codigo 
+    foto (url)
+    precio 
+    stock 
+
+carrito: 
+    id 
+    timestamp
+    productos {
+        id 
+        timestamp(producto) → Date.now()
+        nombre
+        descripcion
+        codigo
+        foto (url)
+        precio
+        stock
+    }
+
+persistencia: 
+    file system
+    productos y carrito
+
+JSON : dialogo entre backend y front. 
+el servidor no debe generar ninguna vista. 
+
+si se busca una ruta q no esta en servidor, tirar error. 
+ejemplo: 
+    {
+        "error": "-2",
+        descripcion: 
+            ruta (no implementada)
+            metodo (no implementada)
+    }
+
+ECMAScript (
+    router 
+    logica de negocio/api 
+    persistencia
+)
+
+----------------------------------------------------------------
+aviso del profe: 
+
+.env con glitch 
+no sabe si va a tomar el .env del archivo, o hay que configurarlo. 
+
+administradores:  usar un middleware para verificar que el usuario sea admin
+
+log in: 
+header/param, true o false
+es admin, si o no?
+
+crear un middleware que antes de llegar a nuestra ruta, definamos si es admin (true) o no (false)
+true: next 
+false: devolver un error
+
+recomienda crear interfases para que el mismo editor se queje. 
+
+probar con postman o frontend sencilla.
+no hace falta hacer frontend, no se recomienda.
+
+si pueden usar typescript mejor. 
+
+.
+├── app.js
+├── bin
+│   └── www
+├── package.json
+├── public
+│   ├── images
+│   ├── javascripts
+│   └── stylesheets
+│       └── style.css
+├── routes
+│   ├── index.js
+│   └── users.js
+└── views
+    ├── error.pug
+    ├── index.pug
+    └── layout.pug
+
+-----------------------------------
+
+test-project/
+   node_modules/
+
+   config/
+      db.js                //Database connection and configuration
+      credentials.js       //Passwords/API keys for external services used by your app
+
+   models/                 //For mongoose schemas
+      users.js
+      things.js
+
+   routes/                 //All routes for different entities in different files 
+      users.js
+      things.js
+
+   app.js
+
+   routes.js               //Require all routes in this and then require this file in app.js 
+   
+   package.json
