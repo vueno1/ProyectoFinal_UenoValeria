@@ -16,14 +16,15 @@ module.exports = class Productos {
     guardar(objeto) {
         
         if(this.contenido.length === 0) {
-            console.log(objeto)
             objeto.id = 1
+            objeto.timestamp = Date.now()
 
             this.contenido.push(objeto)
             return this.contenido
         }
 
         objeto.id = this.contenido[this.contenido.length-1].id + 1
+        objeto.timestamp = Date.now()
         this.contenido.push(objeto)
         return this.contenido
     }
@@ -34,8 +35,13 @@ module.exports = class Productos {
         
         this.contenido[objetoIndice] = {
             nombre: reemplazo.nombre,
+            descripcion: reemplazo.descripcion,
+            codigo: reemplazo.codigo,
+            foto: reemplazo.foto,
             precio: reemplazo.precio, 
-            id: this.contenido[objetoIndice].id
+            stock: reemplazo.stock,
+            id: this.contenido[objetoIndice].id,
+            timestamp: Date.now()
         }
         return this.contenido[objetoIndice]
     }
