@@ -5,6 +5,7 @@ const router = Router();
 
 const fs = require("fs")
 const ruta = "./fileSystem/archivo.txt"
+const rutaCarrito = "./fileSystem/carrito.txt"
 
 router.get('/', (req,res) =>{
     const carrito = miCarrito.mostrarTodoCarrito()
@@ -27,6 +28,10 @@ router.get("/:id/productos", (req,res) =>{
 //creo un carrito con su id 
 router.post('/', (req, res) => {
     const carrito = miCarrito.crearCarrito()
+    fs.writeFileSync(
+        rutaCarrito,
+        JSON.stringify(carrito, null, 2)
+    )
     res.send(carrito)
 })
 
@@ -47,7 +52,14 @@ router.post("/:idCarrito/productos/:id", (req,res)=>{
     const carritoElegido = carrito.find(elemento => elemento.carritoNumero_id === idCarrito)
     if(!productoSeleccionado || !carritoElegido) return res.send("id de producto o id de carrito incorrectos!")
     
-    carritoElegido.productos.push(productoSeleccionado)    
+    carritoElegido.productos.push(productoSeleccionado) 
+    const carritoActualizado = miCarrito.mostrarTodoCarrito() 
+
+    fs.writeFileSync(
+        rutaCarrito, 
+        JSON.stringify(carritoActualizado, null, 2)
+    )
+    
     res.send ({
         carrito: idCarrito,
         seleccion: productoSeleccionado
@@ -56,14 +68,17 @@ router.post("/:idCarrito/productos/:id", (req,res)=>{
 
 router.delete("/:id", (req,res) =>{
     const id = Number(req.params.id)
-    const carrito = miCarrito.mostrarTodoCarrito()
-    // const buscarId = carrito.find(objeto => objeto.carritoNumero_id === id)
-    // if(!buscarId) return res.send("el id no existe!")
-
     miCarrito.borrarCarritoPorId(id)
+    const carrito = miCarrito.mostrarTodoCarrito()
+
+    fs.writeFileSync(
+        rutaCarrito,
+        JSON.stringify(carrito, null, 2)
+    )
+
     res.send({
         carritoEliminado: id,
-        carritoActual: miCarrito.mostrarTodoCarrito()
+        carritoActual: carrito
     })
 })
 
@@ -72,6 +87,11 @@ router.delete("/:id/productos/:id_prod", (req,res)=>{
     const idCarrito = Number(req.params.id)
 
     miCarrito.borrarProductoDeCarrito(idProducto, idCarrito)
+    const carritoActualizado = miCarrito.mostrarTodoCarrito()
+    fs.writeFileSync(
+        rutaCarrito,
+        JSON.stringify(carritoActualizado, null, 2)
+    )
     res.send({
         carrito: idCarrito,
         productoEliminado: idProducto,
