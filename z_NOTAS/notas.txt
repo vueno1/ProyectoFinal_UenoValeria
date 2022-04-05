@@ -180,3 +180,54 @@ test-project/
     }
 
     ------------------------------------
+
+    app.get('*', function(req, res){
+        res.sendFile(__dirname+'/public/error.html');
+    });
+
+    En el caso de requerir una ruta no implementada en el servidor, 
+    este debe contestar un objeto de error: 
+    
+    ej { error : -2, descripcion: ruta 'x' método 'y' no implementada}
+
+----------------------------------------------------
+
+Por ahora para la primera entrega como que no está definido el funcionamiento para esa variable
+Pero podriamos hacer algo como, que en cada peticion que se haga, 
+por query params, se envie una variable para saber si es admin o no (claro es hardcodeada)
+
+por ejemplo cuando hagamos el post de un producto:
+localhost:4000/api/productos?isAdmin=true
+
+y te puedes hacer un middleware para poner entre cada ruta que consulte 
+si por req.query viene isAdmin, y si es true, pones el next() paraq ue 
+siga su camino, y si es false no. 
+
+Claro dependiendo de lo solicitado en la consigna para cada ruta
+
+///middleware - login///
+
+1 - dar acceso a una URL 
+
+    const middleware = {
+
+        isloggin: function (req,res,next) {
+
+            if (req.user) return next() → si es user le damos acceso con next.
+            res.redirect("/") → sino, lo redireccionamos a otro lado. 
+        }
+    }
+
+    module.exports = middleware;
+
+2 - lo importamos a las rutas. 
+
+    const isloggin = require("./middleware").isloggin, 
+
+    router.route("/admin/")
+        .get(isloggin, function (req, res) {
+            .....
+        })
+
+3- si quieren poner el middleware a todas las rutas: 
+    router.use (isloggin)

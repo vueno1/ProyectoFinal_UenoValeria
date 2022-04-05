@@ -1,5 +1,6 @@
 const Contenedor = require("../../API/ClassCarrito")
 const miCarrito = new Contenedor()
+
 const { Router } = require('express');
 const router = Router();
 
@@ -7,12 +8,23 @@ const fs = require("fs")
 const ruta = "./fileSystem/archivo.txt"
 const rutaCarrito = "./fileSystem/carrito.txt"
 
+//loggeo de usuario autorizado
+router.use((req,res,next) =>{
+    if(req.query.nombre === "valeria") return next()
+    res.send({
+        error: -1,
+        descripcion: "usuario no autorizado"
+    })
+})
+
+//muestro mi carrito
 router.get('/', (req,res) =>{
     const carrito = miCarrito.mostrarTodoCarrito()
     if(!carrito.length) return res.send("no hay nada!")
     res.send(carrito)
 })
 
+//muestro los productos de mi carrito x id.
 router.get("/:id/productos", (req,res) =>{
     const id = Number(req.params.id)
     const carrito = miCarrito.mostrarTodoCarrito()
@@ -25,7 +37,7 @@ router.get("/:id/productos", (req,res) =>{
     }) 
 })
 
-//creo un carrito con su id 
+//creo un carrito con su id unico.
 router.post('/', (req, res) => {
     const carrito = miCarrito.crearCarrito()
     fs.writeFileSync(
@@ -35,7 +47,7 @@ router.post('/', (req, res) => {
     res.send(carrito)
 })
 
-//agrego producto x id a carrito x id de producto.
+//agrego producto x id_Producto a carrito x id_Carrito
 router.post("/:idCarrito/productos/:id", (req,res)=>{
 
     const actualizoLectura = fs.readFileSync(
@@ -59,13 +71,14 @@ router.post("/:idCarrito/productos/:id", (req,res)=>{
         rutaCarrito, 
         JSON.stringify(carritoActualizado, null, 2)
     )
-    
+
     res.send ({
         carrito: idCarrito,
         seleccion: productoSeleccionado
     })
 })
 
+//elimino carrito x id_carrito
 router.delete("/:id", (req,res) =>{
     const id = Number(req.params.id)
     miCarrito.borrarCarritoPorId(id)
@@ -82,6 +95,7 @@ router.delete("/:id", (req,res) =>{
     })
 })
 
+//elimino producto x id, x id_carrito
 router.delete("/:id/productos/:id_prod", (req,res)=>{
     const idProducto = Number(req.params.id_prod)
     const idCarrito = Number(req.params.id)
