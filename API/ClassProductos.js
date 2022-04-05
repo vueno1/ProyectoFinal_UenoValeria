@@ -53,4 +53,5 @@ module.exports = class Productos {
         this.contenido = this.contenido.filter(objeto => objeto.id !== id)
         return `el id = ${id} fue eliminado`
     }
+
 }

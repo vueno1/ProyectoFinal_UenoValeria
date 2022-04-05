@@ -2,3 +2,32 @@ POSTMAN:
 
 1 - POST: raw + JSON
 
+----------------------------------------
+
+TypeError: Router.use() requires a middleware function but got a Object
+solucion: 
+    module.exports = router
+
+------------------------------------------------
+
+file system 
+
+tener en cuenta que cuando hago un nuevo fs.read....me lee lo que tengo actual.
+pero si uso un fs.read anterior me lee lo que tenia antes. 
+
+el parse hacerlo dentro del scope del fs.read. 
+
+-------------------------------------------------
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+
+solucion: 
+     if(!buscarId) return res.send("el id no existe!")
+
+    miCarrito.borrarCarritoPorId(id)
+    res.send({
+        carritoEliminado: id,
+        carritoActual: miCarrito.mostrarTodoCarrito()
+    })
+
+------------------------------------------------------

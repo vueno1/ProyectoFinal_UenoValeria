@@ -137,3 +137,46 @@ test-project/
    routes.js               //Require all routes in this and then require this file in app.js 
    
    package.json
+
+   ------------------------------------------------------
+   [
+       {
+           carritoId: 1,
+           incluye: {
+               objeto 1,
+               objeto 2,
+           },
+       },
+
+       {
+           carritoId: 2,
+           incluye: {
+               objeto1,
+               objeto2,
+           },
+       }
+   ]
+
+   ---------------------------------------
+
+   crearCarrito () {
+        if(this.carrito.length === 0) {
+
+            const nuevoCarrito = {
+                CarritoNumero_id:1
+            }
+            this.carrito.push(nuevoCarrito)
+            return this.carrito
+
+        }
+
+        const ultimoId = this.carrito[this.carrito.length-1].CarritoNumero_id + 1
+
+        const nuevoCarrito = {
+            CarritoNumero_id: ultimoId        
+        }
+        this.carrito.push(nuevoCarrito)
+        return this.carrito
+    }
+
+    ------------------------------------

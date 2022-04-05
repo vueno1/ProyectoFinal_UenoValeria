@@ -1,8 +1,15 @@
 const Contenedor = require("../../API/ClassProductos")
 const misProductos = new Contenedor()
+const fs = require("fs")
+const ruta = "./fileSystem/archivo.txt"
 
 const { Router } = require('express');
 const router = Router();
+
+// const leerArchivo = fs.readFileSync(
+//     ruta,
+//     "utf-8"
+// )
 
 router.get('/', (req,res) =>{
     const productos = misProductos.mostrarTodo()
@@ -13,6 +20,11 @@ router.get('/', (req,res) =>{
 router.post('/', (req, res) => {
     const producto = req.body
     const productos = misProductos.guardar(producto)
+
+    fs.writeFileSync(
+        ruta,
+        JSON.stringify(productos, null, 2)
+    )
     res.send(productos)
 })
 
@@ -24,6 +36,13 @@ router.put("/:id", (req, res) =>{
     if(!actualizacion) {
         res.send("el id no existe!")
     }
+
+    const misProductosActualizados = misProductos.mostrarTodo()
+
+    fs.writeFileSync(
+        ruta,
+        JSON.stringify(misProductosActualizados, null, 2)
+    )
     res.send(actualizacion)
 })
 
@@ -34,7 +53,19 @@ router.delete("/:id", (req,res) =>{
     if(!eliminacion) {
         res.send("el id no existe!")
     }
+
+    const misProductosActualizados = misProductos.mostrarTodo()
+
+    fs.writeFileSync(
+        ruta,
+        JSON.stringify(misProductosActualizados, null, 2)
+    )
+    
     res.send(eliminacion)
 })
+
+// router.delete("/", (req, res) =>{
+
+// })
 
 module.exports = router;//exporto mis rutas de productos
