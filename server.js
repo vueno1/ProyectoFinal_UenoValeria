@@ -13,6 +13,6 @@ server.use((req, res, next) =>{
 })
 
 server.listen(PORT, ()=>{
-    console.log(`escuchando el puerto =  ${port}`)
+    console.log(`escuchando el puerto =  ${PORT}`)
 })
 server.on("error", error => console.log(`Error en servidor ${error}`))

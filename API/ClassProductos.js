@@ -1,57 +1,87 @@
+const fs = require("fs")
+const ruta = "./fileSystem/archivo.txt"
+
 module.exports = class Productos { 
 
     constructor() {
-        this.contenido = []
     }
 
-    mostrarTodo() {
-        return this.contenido
+    async mostrarTodo() {
+        try {
+            const lectura = await fs.promises.readFile(ruta,"utf-8")
+            const contenido = await JSON.parse(lectura)
+            return contenido
+        }
+        catch(error) {
+            console.error(error)
+        }
     }
 
-    mostrarPorId (id) {
-        const buscarPorId = this.contenido.find(elemento => elemento.id === id)
-        return buscarPorId
+    async mostrarPorId (id) {
+        try {
+            const lectura = await fs.promises.readFile(ruta,"utf-8")
+            const contenido = await JSON.parse(lectura)
+            const buscarPorId = contenido.find(elemento => elemento.id === id)
+            return buscarPorId
+        }
+        catch(error) {
+            console.error(error)
+        }
     }
 
-    guardar(objeto) {
-        
-        if(this.contenido.length === 0) {
-            objeto.id = 1
+    async guardar(objeto) {
+        try {
+            const productos = await this.mostrarTodo()        
+            if(productos.length === 0) {
+                objeto.id = 1
+            } else {
+                objeto.id = productos[productos.length-1].id + 1            
+            }
             objeto.timestamp = Date.now()
-
-            this.contenido.push(objeto)
-            return this.contenido
+            productos.push(objeto)
+            fs.writeFileSync(ruta, JSON.stringify(productos,null,4))
+            return productos
         }
-
-        objeto.id = this.contenido[this.contenido.length-1].id + 1
-        objeto.timestamp = Date.now()
-        this.contenido.push(objeto)
-        return this.contenido
-    }
-
-    actualizarPorId(id, reemplazo) {
-        const objetoIndice = this.contenido.findIndex(objeto => objeto.id === id)   
-        if(objetoIndice === -1) return
-        
-        this.contenido[objetoIndice] = {
-            nombre: reemplazo.nombre,
-            descripcion: reemplazo.descripcion,
-            codigo: reemplazo.codigo,
-            foto: reemplazo.foto,
-            precio: reemplazo.precio, 
-            stock: reemplazo.stock,
-            id: this.contenido[objetoIndice].id,
-            timestamp: Date.now()
+        catch(error) {
+            console.error(error)
         }
-        return this.contenido[objetoIndice]
     }
 
-    eliminarPorId (id) {
-        const objetoIndice = this.contenido.findIndex(objeto => objeto.id === id)   
-        if(objetoIndice === -1) return
-
-        this.contenido = this.contenido.filter(objeto => objeto.id !== id)
-        return `el id = ${id} fue eliminado`
+    async actualizarPorId(id, reemplazo) {
+        try {
+            const contenido = await this.mostrarTodo()
+            const productoIndice = contenido.findIndex(producto => producto.id === id)   
+            if(productoIndice === -1) return
+            
+            contenido[productoIndice] = {
+                nombre: reemplazo.nombre,
+                descripcion: reemplazo.descripcion,
+                codigo: reemplazo.codigo,
+                foto: reemplazo.foto,
+                precio: reemplazo.precio, 
+                stock: reemplazo.stock,
+                id: contenido[productoIndice].id,
+                timestamp: Date.now()
+            }
+            fs.writeFileSync(ruta, JSON.stringify(contenido, null, 4))
+            return contenido[productoIndice]
+        }
+        catch(error) {
+            console.error(error)
+        }
     }
 
+    async eliminarPorId (id) {
+        try{
+            const contenido = await this.mostrarTodo()    
+            const productoIndice = contenido.findIndex(producto => producto.id === id)   
+            if(productoIndice === -1) return    
+            const contenidoFiltrado = contenido.filter(producto => producto.id !== id)
+            fs.writeFileSync(ruta,JSON.stringify(contenidoFiltrado, null, 4))
+            return `el id = ${id} fue eliminado`
+        }
+        catch(error) {
+            console.error(error)
+        }
+    }
 }

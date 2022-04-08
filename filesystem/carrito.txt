@@ -1,23 +1,17 @@
 [
-  {
-    "carritoNumero_id": 1,
-    "timestamp": 1649192200229,
-    "productos": [
-      {
-        "nombre": "frutilla",
-        "descripcion": "marca lala",
-        "codigo": 3333,
-        "foto": "https://cdn3.iconfinder.com/data/icons/fruits-52/150/icon_fruit_morango-256.png",
-        "precio": 15,
-        "stock": 30,
-        "id": 2,
-        "timestamp": 1649192179351
-      }
-    ]
-  },
-  {
-    "carritoNumero_id": 2,
-    "timestamp": 1649192201209,
-    "productos": []
-  }
+    {
+        "carritoNumero_id": 3,
+        "timestamp": 1649447142991,
+        "productos": []
+    },
+    {
+        "carritoNumero_id": 4,
+        "timestamp": 1649447251118,
+        "productos": []
+    },
+    {
+        "carritoNumero_id": 5,
+        "timestamp": 1649447252015,
+        "productos": []
+    }
 ]

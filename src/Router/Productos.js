@@ -1,9 +1,6 @@
 const Contenedor = require("../../API/ClassProductos")
 const misProductos = new Contenedor()
 
-const fs = require("fs")
-const ruta = "./fileSystem/archivo.txt"
-
 const { Router } = require('express');
 const router = Router();
 
@@ -17,59 +14,38 @@ router.use((req,res,next) =>{
 })
 
 //muestro mis productos
-router.get('/', (req,res) =>{
-    const productos = misProductos.mostrarTodo()
+router.get('/', async (req,res) =>{
+    const productos = await misProductos.mostrarTodo()
     if(!productos.length) return res.send("no hay nada!")
     res.send(productos)
 })
 
 //guardo mis productos y agrego id unico + timestamp
-router.post('/', (req, res) => {
-    const producto = req.body
-    const productos = misProductos.guardar(producto)
-
-    fs.writeFileSync(
-        ruta,
-        JSON.stringify(productos, null, 2)
-    )
+router.post('/', async (req, res) => {
+    const producto = await req.body
+    const productos = await misProductos.guardar(producto)
     res.send(productos)
 })
 
 //cambio valor de propiedad segun id de producto
-router.put("/:id", (req, res) =>{
+router.put("/:id", async (req, res) =>{
     const id = Number(req.params.id)
-    const objetoReemplazo =req.body
-    const actualizacion = misProductos.actualizarPorId(id, objetoReemplazo)
+    const objetoReemplazo = req.body
+    const actualizacion = await misProductos.actualizarPorId(id, objetoReemplazo)
 
-    if(!actualizacion) {
+    if(actualizacion === - 1) {
         res.send("el id no existe!")
     }
-
-    const misProductosActualizados = misProductos.mostrarTodo()
-
-    fs.writeFileSync(
-        ruta,
-        JSON.stringify(misProductosActualizados, null, 2)
-    )
     res.send(actualizacion)
 })
 
 //elimino producto x id
-router.delete("/:id", (req,res) =>{
+router.delete("/:id", async (req,res) =>{    
     const id = Number(req.params.id)
-    const eliminacion = misProductos.eliminarPorId(id)
-
+    const eliminacion = await misProductos.eliminarPorId(id)
     if(!eliminacion) {
         res.send("el id no existe!")
     }
-
-    const misProductosActualizados = misProductos.mostrarTodo()
-
-    fs.writeFileSync(
-        ruta,
-        JSON.stringify(misProductosActualizados, null, 2)
-    )
-    
     res.send(eliminacion)
 })
 

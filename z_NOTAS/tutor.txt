@@ -1,0 +1,19 @@
+1-
+Un detallito, port del console log está en minusculas pero no existe esa variable en minuscula, 
+asi que la pase a mayus para que funcione 😁
+
+2-
+Te dejo un enlace con un comprimido, con el archivo de la clase de productos, 
+el de sus rutas y el archivo txt de producto (este en principio si no se modifica el metodo de lectura,  
+si o si minimo para arrancarlo tendria que tener un [])
+
+en el archivo.txt si o si tiene que comenzar con un []
+
+Sugiero que lo revises, para ver posibles reemplzaos de lo que realizaste y 
+asi poder mejorarlo, usando el archivo siempre con los ultimos cambios. 
+Vas a tener que igualmente agregar algunas cosas para cubrir las 
+validaciones por ejemplo las respuestas, si no existe etc.
+
+Espero puedas avanzarlo, cualquier cosa me consultas. 
+Ah, y en base a estas correcciones y lo que agregues, 
+revisar la parte de carrito para que tenga la misma funcionalidad. 

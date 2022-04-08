@@ -31,3 +31,18 @@ solucion:
     })
 
 ------------------------------------------------------
+
+SyntaxError: Unexpected end of JSON input
+si o si tiene que haber un [] en el archivo de texto (archivo.txt)
+sino va a querer hacer un JSON.parse a algo vacio. 
+
+---------------------------------------------------
+
+TypeError: contenido.find is not a function
+    at Carrito.guardarEnCarrito (C:\Users\Usuario\Documents\programacion\Backend\ProyectoFinalUenoValeria\API\ClassCarrito.js:58:46)
+    at async C:\Users\Usuario\Documents\programacion\Backend\ProyectoFinalUenoValeria\src\Router\Carrito.js:45:23
+
+me pasa cuando leo lo que me trae el metodo mostrarTodoMiCarrito()
+para solucionarlo, vuelvo a leer el archivo y lo parseo nuevamente. 
+
+-------------------------------------------------------
