@@ -1,17 +1,3 @@
 [
-    {
-        "carritoNumero_id": 3,
-        "timestamp": 1649447142991,
-        "productos": []
-    },
-    {
-        "carritoNumero_id": 4,
-        "timestamp": 1649447251118,
-        "productos": []
-    },
-    {
-        "carritoNumero_id": 5,
-        "timestamp": 1649447252015,
-        "productos": []
-    }
+
 ]
