@@ -1,10 +1,16 @@
 //ARCHIVO//
-const ProductoDaoArchivo = require("../daos/productos/ProductosDaoArchivo");
-const misProductos = new ProductoDaoArchivo()
+//const ProductoDaoArchivo = require("../daos/productos/ProductosDaoArchivo");
+//const misProductos = new ProductoDaoArchivo()
 
 //MEMORIA//
-// const ProductoDaoMemoria = require("../daos/productos/ProductosDaoMemoria");
-// const misProductos = new ProductoDaoMemoria()
+const ProductoDaoMemoria = require("../daos/productos/ProductosDaoMemoria");
+const misProductos = new ProductoDaoMemoria()
+
+//MONGODB//
+
+
+//FIREBASE//
+
 
 const { Router } = require('express');
 const router = Router();

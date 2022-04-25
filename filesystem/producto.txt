@@ -1,0 +1,22 @@
+[
+    {
+        "nombre": "frutilla",
+        "descripcion": "marca lala",
+        "codigo": 3333,
+        "foto": "https://cdn3.iconfinder.com/data/icons/fruits-52/150/icon_fruit_morango-256.png",
+        "precio": 15,
+        "stock": 30,
+        "id": 1,
+        "timestamp": 1650915808857
+    },
+    {
+        "nombre": "cerezas",
+        "descripcion": "marca popo",
+        "codigo": 1111,
+        "foto": "https://cdn3.iconfinder.com/data/icons/fruits-52/150/icon_fruit_laranja-256.png",
+        "precio": 20,
+        "stock": 15,
+        "id": 2,
+        "timestamp": 1650915813138
+    }
+]

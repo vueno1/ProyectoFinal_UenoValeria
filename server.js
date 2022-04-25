@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config(); //detecta el .env x default
 const PORT = process.env.PORT || 8080
-const server = require("./src/app")
+const server = require("./src/config/app")
 
 //middleware para verificar ruta correcta.
 server.use((req, res, next) =>{
