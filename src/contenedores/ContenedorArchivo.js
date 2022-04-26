@@ -51,7 +51,8 @@ module.exports = class ContenedorArchivo {
         try{
             const contenido = await this.mostrarTodo()    
             const productoIndice = contenido.findIndex(producto => producto.id === id)   
-            if(productoIndice === -1) return    
+            if(productoIndice === -1) return "el id no fue encontrado!" 
+               
             const contenidoFiltrado = contenido.filter(producto => producto.id !== id)
             fs.writeFileSync(this.ruta,JSON.stringify(contenidoFiltrado, null, 4))
             return `el id = ${id} fue eliminado`
