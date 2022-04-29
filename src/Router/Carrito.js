@@ -1,10 +1,10 @@
 //ARCHIVO//
-const CarritosDaoArchivo = require("../daos/carritos/CarritosDaoArchivo")
-const miCarrito = new CarritosDaoArchivo()
+// const CarritosDaoArchivo = require("../daos/carritos/CarritosDaoArchivo")
+// const miCarrito = new CarritosDaoArchivo()
 
 //MEMORIA//
-// const CarritosDaoMemoria = require("../daos/carritos/CarritosDaoMemoria")
-// const miCarrito = new CarritosDaoMemoria()
+const CarritosDaoMemoria = require("../daos/carritos/CarritosDaoMemoria")
+const miCarrito = new CarritosDaoMemoria()
 
 const { Router } = require('express');
 const router = Router();
@@ -20,7 +20,7 @@ router.use((req,res,next) =>{
 
 //muestro mi carrito → ok 
 router.get('/', async (req,res) =>{
-    const carrito = await miCarrito.mostrarTodo()
+    const carrito = await miCarrito.mostrarTodoCarrito()
     res.send(carrito)
 })
 

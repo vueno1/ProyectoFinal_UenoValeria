@@ -46,3 +46,20 @@ me pasa cuando leo lo que me trae el metodo mostrarTodoMiCarrito()
 para solucionarlo, vuelvo a leer el archivo y lo parseo nuevamente. 
 
 -------------------------------------------------------
+(mongodb)
+TypeError: Cannot read properties of undefined (reading 'id')
+
+me paso porque no le puse el .length en el if y en el id q se suma:
+
+    if(this.db.collection.length === undefined|| 0) {
+        objeto.id = 1
+    } else{
+        objeto.id = this.db.collection[this.db.collection.length-1].id +1
+    }
+
+------------------------------------------------------------
+
+tener cuidado con : 
+
+const {...} = require("...") → esto lo que hace es traerme cierta funcion, propiedad de esa ruta. 
+const xxx = require("...") → aca me trae todo el objeto.

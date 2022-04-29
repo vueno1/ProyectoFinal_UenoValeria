@@ -17,3 +17,7 @@ validaciones por ejemplo las respuestas, si no existe etc.
 Espero puedas avanzarlo, cualquier cosa me consultas. 
 Ah, y en base a estas correcciones y lo que agregues, 
 revisar la parte de carrito para que tenga la misma funcionalidad. 
+
+-----------------------------------------------------------------------------------
+
+
