@@ -50,7 +50,9 @@ const Producto = require("../models/ProductosModel");
                         foto: reemplazo.foto,
                         precio: reemplazo.precio, 
                         stock: reemplazo.stock,
-                        _id: objetoAReemplazar._id,
+                        id: objetoAReemplazar._id, //aca tuve que modificar _id x id
+                        //me tiraba este error: Plan executor error during findAndModify :: caused by :: 
+                        //Performing an update on the path '_id' would modify the immutable field '_id'
                         timestamp: Date.now()
                     }
                     await this.collection.findOneAndUpdate(objetoAReemplazar, {$set: objetoReemplazo})

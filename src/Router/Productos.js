@@ -7,8 +7,12 @@
 // const misProductos = new ProductoDaoMemoria()
 
 //MONGODB//
-const ContenenedorMongoDB = require("../contenedores/ContenedorMongoDB");
-const misProductos = new ContenenedorMongoDB()
+// const ContenenedorMongoDB = require("../contenedores/ContenedorMongoDB");
+// const misProductos = new ContenenedorMongoDB()
+
+//FIREBASE//
+const ContenedorFirebase = require("../contenedores/ContenedorFirebase")
+const misProductos = new ContenedorFirebase()
 
 const { Router } = require('express');
 const router = Router();
