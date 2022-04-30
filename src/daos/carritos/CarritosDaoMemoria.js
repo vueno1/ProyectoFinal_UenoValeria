@@ -1,15 +1,16 @@
 const ContenedorMemoria = require("../../contenedores/ContenedorMemoria"); //importo el contenedor PADRE 
+const Producto = require("../../daos/productos/ProductosDaoMemoria")
 
 module.exports = class Carrito extends ContenedorMemoria {
 
     constructor() {
-        super();
-        this.carrito = []
+        super()
+        this.productos = Producto;
     }
 
     mostrarTodoCarrito () {
         try{
-            return this.carrito
+            return this.contenido
         } 
         catch(error) {
             console.error(error)
@@ -18,47 +19,46 @@ module.exports = class Carrito extends ContenedorMemoria {
 
     async crearCarrito () {
         try {
-            if (this.carrito.length === 0) {
+            if (this.contenido.length === 0) {
                 const nuevoCarrito = {
                     carritoNumero_id:1,
                     timestamp: Date.now(),
                     productos: []
                 }
 
-                this.carrito.push(nuevoCarrito)
-                return this.carrito
+                this.contenido.push(nuevoCarrito)
+                return this.contenido
             } 
 
-            const ultimoId = this.carrito[this.carrito.length-1].carritoNumero_id + 1
+            const ultimoId = this.contenido[this.contenido.length-1].carritoNumero_id + 1
             const nuevoCarrito = {
                 carritoNumero_id: ultimoId,
                 timestamp:Date.now(),
                 productos: []
             }
-            this.carrito.push(nuevoCarrito)
-            return this.carrito           
+            this.contenido.push(nuevoCarrito)
+            return this.contenido          
           
         }
         catch(error) {
-            console.error(error)
+            console.error(error.message)
         }
     }
 
     async guardarEnCarrito(id, carritoId) {
         try {
-            const carritos = this.carrito
-            const carritoSeleccionado = carritos.find(carrito => carrito.carritoNumero_id === carritoId)
-            console.log(carritoSeleccionado)
+            const carritos = await this.contenido
+            const carritoSeleccionado = await carritos.find(carrito => carrito.carritoNumero_id === carritoId)
             
-            const productoElegido = misProductosEnMemoria.find(producto=>producto.id === id)
-            console.log(productoElegido)
+            console.log(misProductos)
+            
 
-            if(!carritoSeleccionado || !productoElegido) return "el carrito o producto no existe!"
-            carritoSeleccionado.productos.push(productoElegido)
-            return productoElegido
+            // if(!carritoSeleccionado || !productoElegido) return "el carrito o producto no existe!"
+            // carritoSeleccionado.productos.push(productoElegido)
+            // return productoElegido
         }      
         catch (error) {
-            console.log(error)
+            console.log(error.message)
         }
     }
 

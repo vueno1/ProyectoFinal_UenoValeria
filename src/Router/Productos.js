@@ -7,8 +7,8 @@
 // const misProductos = new ProductoDaoMemoria()
 
 //MONGODB//
-// const ContenenedorMongoDB = require("../contenedores/ContenedorMongoDB");
-// const misProductos = new ContenenedorMongoDB()
+// const ProductosDaoMongoDB = require("../daos/productos/ProductosDaoMongoDB");
+// const misProductos = new ProductosDaoMongoDB()
 
 //FIREBASE//
 const ContenedorFirebase = require("../contenedores/ContenedorFirebase")
@@ -43,8 +43,9 @@ router.post('/', async (req, res) => {
 
 //cambio valor de propiedad segun id de producto
 router.put("/:id", async (req, res) =>{
-    //const id = Number(req.params.id)
-    const id = req.params.id
+
+    const id = Number(req.params.id)
+    //const id = req.params.id
     const objetoReemplazo = req.body
     const actualizacion = await misProductos.actualizarPorId(id, objetoReemplazo)
 
@@ -56,8 +57,8 @@ router.put("/:id", async (req, res) =>{
 
 //elimino producto x id
 router.delete("/:id", async (req,res) =>{    
-    //const id = Number(req.params.id)
-    const id = req.params.id
+    const id = Number(req.params.id)
+    //const id = req.params.id
     const eliminacion = await misProductos.borrarPorId(id)
     if(!eliminacion) {
         res.send("el id no existe!")

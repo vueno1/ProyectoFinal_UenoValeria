@@ -63,3 +63,10 @@ tener cuidado con :
 
 const {...} = require("...") → esto lo que hace es traerme cierta funcion, propiedad de esa ruta. 
 const xxx = require("...") → aca me trae todo el objeto.
+
+----------------------------------------------------
+
+mongodb
+cuidado con el (_id) y NO poner id solo.
+
+-----------------------------------------------------

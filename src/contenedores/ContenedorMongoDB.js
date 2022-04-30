@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Producto = require("../models/ProductosModel");
 
     try{
         mongoose.connect(
@@ -11,13 +10,12 @@ const Producto = require("../models/ProductosModel");
             }
         );
 
-        module.exports = class ContenedorMongoDB {
+        module.exports = class ContenedorMongodb {
 
-            constructor() {
-                this.collection = Producto //esto es un array con mis objetos(doc)
+            constructor(nombreCollecion) {
+                this.collection = nombreCollecion 
             }
         
-            //NO TOCAR!!!!
             async mostrarTodo() {
                 try {
                     console.log("READ")
@@ -29,7 +27,6 @@ const Producto = require("../models/ProductosModel");
 
             async guardar(objeto) {
                 try{ 
-                    objeto.timestamp = Date.now()
                     console.log("SAVED")
                     await this.collection.create(objeto)
                     return await this.collection.find()

@@ -13,9 +13,9 @@ const productosSchema = new mongoose.Schema({
     codigo: {type: Number, required: true, max: 100},
     foto: {type: String, required: true, max: 100},
     precio: {type: Number, required: true, max: 100},
-    stock: {type: Number, required: true, max: 100}
-    //id: {type: Number, required: true, max: 100},
-    //timestamp: {type: Date, default: new Date(), required: true, max: 100}
+    stock: {type: Number, required: true, max: 100},
+    timestamp: {type: Date, default: Date.now()}
+
     //type: tipo de dato
     //que significa requerido? es decir, que no puede estar vacio
     //max: maximo de caracteres
