@@ -44,6 +44,7 @@ module.exports = class CarritosDaoMongoDB extends ContenedorMongodb {
     ///////////////////////
     async buscarCarritoPorId (id) {
         try{
+            console.log("carrito Mostrado")
             return await Carrito.findOne({_id:id})
         }
         catch(error){
@@ -71,30 +72,16 @@ module.exports = class CarritosDaoMongoDB extends ContenedorMongodb {
     async borrarProductoDeCarrito(idCarrito, id) {
         try{
             console.log("producto borrado de carrito")
-            //await Carrito.findOne({_id:idCarrito})
-            //const producto = await Producto.findOne({_id:id}) 
+            await Carrito.findOne({_id:idCarrito})
 
-            // Carrito.collection.findOneAndUpdate({_id:idCarrito}, {$pull: {"productos": {_id:id}}})
-            Carrito.collection.findOneAndUpdate(
-                {_id: idCarrito}, 
-                {$pull: {productos: {_id:id}}}
-            );
-
-            //////////
+            /////////
             //PENDING 
-            //////////
-
-            // db.collection.update({
-            //     "_id": "626c5fd2aa0fc0e4eef45c94"
-            //   },
-            //   {
-            //     "$pull": {
-            //       "productos": {
-            //         "_id": "626d50b621180e291a330333"
-            //       }
-            //     }
-            //   })
-                   
+            /////////
+            //await Carrito.findOneAndUpdate({_id:idCarrito}, {productos: {$pull: {_id:id}}})
+            //const filtro = carrito.productos.filter(producto => producto._id === id)
+            //await Carrito.findByIdAndUpdate({_id: idCarrito}, {$push: filtro})
+           //lo que podes hacer es obtener todo el carrito, filtras el producto y lo volves a almacenar.
+            //aparte, que te quedarian los mismos metodos tanto para productos como para carrito                   
             return await Carrito.find()
         }
         catch(error){

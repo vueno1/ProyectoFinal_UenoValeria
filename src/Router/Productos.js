@@ -11,8 +11,8 @@
 // const misProductos = new ProductosDaoMongoDB()
 
 //FIREBASE//
-const ContenedorFirebase = require("../contenedores/ContenedorFirebase")
-const misProductos = new ContenedorFirebase()
+const ProductosDaoFirebase = require("../daos/productos/ProductosDaoFirebase")
+const misProductos = new ProductosDaoFirebase()
 
 const { Router } = require('express');
 const router = Router();
@@ -27,7 +27,6 @@ router.use((req,res,next) =>{
 })
 
 //muestro mis productos
-//NO TOCAR!!!
 router.get('/', async (req,res) =>{
     const productos = await misProductos.mostrarTodo()
     if(!productos.length) return res.send("no hay nada!")
@@ -44,8 +43,8 @@ router.post('/', async (req, res) => {
 //cambio valor de propiedad segun id de producto
 router.put("/:id", async (req, res) =>{
 
-    const id = Number(req.params.id)
-    //const id = req.params.id
+    //const id = Number(req.params.id)
+    const id = req.params.id
     const objetoReemplazo = req.body
     const actualizacion = await misProductos.actualizarPorId(id, objetoReemplazo)
 
@@ -57,8 +56,8 @@ router.put("/:id", async (req, res) =>{
 
 //elimino producto x id
 router.delete("/:id", async (req,res) =>{    
-    const id = Number(req.params.id)
-    //const id = req.params.id
+    //const id = Number(req.params.id)
+    const id = req.params.id
     const eliminacion = await misProductos.borrarPorId(id)
     if(!eliminacion) {
         res.send("el id no existe!")

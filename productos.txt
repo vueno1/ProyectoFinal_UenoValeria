@@ -1,0 +1,62 @@
+{
+    "nombre": "frutillas",
+    "descripcion": "pop",
+    "codigo": 34,
+    "foto": "https://cdn3.iconfinder.com/data/icons/fruits-52/150/icon_fruit_morango-128.png",
+    "precio": 15,
+    "stock": 30
+}
+
+{
+    "nombre": "mango",
+    "descripcion": "foody foody",
+    "codigo": 35,
+    "foto": "https://cdn3.iconfinder.com/data/icons/fruits-52/150/icon_fruit_abacate-128.png",
+    "precio": 10,
+    "stock": 30
+}
+
+{
+    "nombre": "coco",
+    "descripcion": "finder",
+    "codigo": 36,
+    "foto": "https://cdn3.iconfinder.com/data/icons/fruits-52/150/icon_fruit_coco-128.png",
+    "precio": 25,
+    "stock": 30
+}
+
+{
+    "nombre": "sandia",
+    "descripcion": "fruits fruits",
+    "codigo": 37,
+    "foto": "https://cdn3.iconfinder.com/data/icons/fruits-52/150/icon_fruit_melancia-128.png",
+    "precio": 12,
+    "stock": 30
+}
+
+{
+    "nombre": "manzana",
+    "descripcion": "moño azul",
+    "codigo": 38,
+    "foto": "https://cdn3.iconfinder.com/data/icons/fruits-52/150/icon_fruit_maca-128.png",
+    "precio": 35,
+    "stock": 30
+}
+
+{
+    "nombre": "banana",
+    "descripcion": "monito",
+    "codigo": 39,
+    "foto": "https://cdn3.iconfinder.com/data/icons/fruits-52/150/icon_fruit_banana-128.png",
+    "precio": 35,
+    "stock": 30
+}
+
+{
+    "nombre": "uvas",
+    "descripcion": "uvita ta tan",
+    "codigo": 40,
+    "foto": "https://cdn3.iconfinder.com/data/icons/fruits-52/150/icon_fruit_uvas-128.png",
+    "precio": 15,
+    "stock": 30
+}
