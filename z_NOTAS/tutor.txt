@@ -20,4 +20,10 @@ revisar la parte de carrito para que tenga la misma funcionalidad.
 
 -----------------------------------------------------------------------------------
 
+Estuve mirando algo. Ojo con el uso de try catch en las clases. Siempre se debe exportar algo, 
+y no tenerllo dentro de un try catch, eso puede generar errores.
+Si lo usaste para manejar la conexión de mongo y firebase no esta mal, 
+pero tiene que estar todo en una funcion y sin afectar a la clase, o por fuera o dentro en un metodo
+el export tiene que quedar limpio
 
+-------------------------------------------------------------------------------------

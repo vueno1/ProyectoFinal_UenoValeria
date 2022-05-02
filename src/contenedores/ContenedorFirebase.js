@@ -14,89 +14,85 @@ console.log("base Firebase inicializada");
 
 //--------------------------------------------------------------------------------------------------
 
-//definir la base de datos 
 const db = admin.firestore();
+//definir la base de datos 
 
-try {
+module.exports = class ContenedorFirebase {
 
-    module.exports = class ContenedorFirebase {
-
-        constructor (coleccion) {
-            this.collection = db.collection(coleccion)
-        }
-
-        async mostrarTodo() {
-            try {
-                console.log("READ")
-                const querySnapShot = await this.collection.get()
-                let docs = querySnapShot.docs;
-                
-                const response = docs.map((doc) =>({
-                    id: doc.id,
-                    nombre: doc.data().nombre,
-                    descripcion: doc.data().descripcion,
-                    codigo: doc.data().codigo,
-                    foto:doc.data().foto,
-                    precio: doc.data().precio,
-                    stock: doc.data().stock,
-                    timestamp:doc.data().timestamp                      
-                }));
-                return response
-
-            } catch (error) {
-                console.error(error);
-            }
-        }
-
-        async guardar(objeto) {
-            try{ 
-                objeto.timestamp = Date.now()
-                console.log("SAVED")
-                let doc = this.collection.doc()
-                await doc.create(objeto)
-                return await this.collection.get()
-            }
-            catch(error) {
-                console.log(error)
-            }
-        }
-
-        async actualizarPorId(id, reemplazo) {
-            try {                  
-                console.log("UPDATED")
-                const doc = this.collection.doc(`${id}`)   
-                await doc.update({
-                    nombre: reemplazo.nombre,
-                    descripcion: reemplazo.descripcion,
-                    codigo: reemplazo.codigo,
-                    foto: reemplazo.foto,
-                    precio: reemplazo.precio, 
-                    stock: reemplazo.stock,
-                    id: id, 
-                    timestamp: Date.now()
-                })
-                return await this.dollection.get()
-            }
-            catch(error) {
-                console.log(error.message)
-            }
-        }
-
-        async borrarPorId(id) {
-            try {
-                console.log("DELETE BY ID ")
-                const doc = this.collection.doc(`${id}`) 
-                await doc.delete()
-                return this.collection.get()
-            }
-            catch(error) {
-                console.log(error.message)
-            }
-        }
-
+    constructor (nombreColeccion) {
+        this.collection = db.collection(nombreColeccion)
     }
+
+    async mostrarTodo() {
+        try {
+            console.log("READ")
+            const querySnapShot = await this.collection.get()
+            let docs = querySnapShot.docs;
+            
+            const response = docs.map((doc) =>({
+                id: doc.id,
+                nombre: doc.data().nombre,
+                descripcion: doc.data().descripcion,
+                codigo: doc.data().codigo,
+                foto:doc.data().foto,
+                precio: doc.data().precio,
+                stock: doc.data().stock,
+                timestamp:doc.data().timestamp                      
+            }));
+            return response
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async guardar(objeto) {
+        try{ 
+            objeto.timestamp = Date.now()
+            console.log("SAVED")
+            let doc = this.collection.doc()
+            await doc.create(objeto)
+            return await this.mostrarTodo()
+        }
+        catch(error) {
+            console.log(error)
+        }
+    }
+
+    async actualizarPorId(id, reemplazo) {
+        try {                  
+            console.log("UPDATED")
+            const doc = this.collection.doc(`${id}`)   
+            await doc.update({
+                nombre: reemplazo.nombre,
+                descripcion: reemplazo.descripcion,
+                codigo: reemplazo.codigo,
+                foto: reemplazo.foto,
+                precio: reemplazo.precio, 
+                stock: reemplazo.stock,
+                id: id, 
+                timestamp: Date.now()
+            })
+            
+            return await this.mostrarTodo()
+        }
+        catch(error) {
+            console.log(error.message)
+        }
+    }
+
+    async borrarPorId(id) {
+        try {
+            console.log("DELETE BY ID ")
+            const doc = this.collection.doc(`${id}`) 
+            await doc.delete()
+            return this.mostrarTodo()
+        }
+        catch(error) {
+            console.log(error.message)
+        }
+    }
+
 }
-catch (error) {
-    console.log(error)
-}
+
 

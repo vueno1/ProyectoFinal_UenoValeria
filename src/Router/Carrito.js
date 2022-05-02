@@ -11,8 +11,8 @@
 // const miCarrito = new CarritosDaoMongoDB()
 
 //FIREBASE//
-const ContenedorFirebase = require("../contenedores/ContenedorFirebase")
-const miCarrito = new ContenedorFirebase()
+const CarritosDaoFirebase = require("../daos/carritos/CarritosDaoFirebase")
+const miCarrito = new CarritosDaoFirebase()
 
 const { Router } = require('express');
 const router = Router();
