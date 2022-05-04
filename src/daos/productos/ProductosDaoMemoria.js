@@ -1,6 +1,10 @@
 const ContenedorMemoria = require("../../contenedores/ContenedorMemoria");
 
-module.exports = class Producto extends ContenedorMemoria {
+module.exports = class ProductosDaoMemoria extends ContenedorMemoria {
+
+    constructor(){
+      super()
+    }
     
     async actualizarPorId(id, reemplazo) {
         try {

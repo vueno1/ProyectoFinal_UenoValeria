@@ -15,6 +15,7 @@ console.log("base Firebase inicializada");
 //--------------------------------------------------------------------------------------------------
 
 const db = admin.firestore();
+module.exports = db
 //definir la base de datos 
 
 module.exports = class ContenedorFirebase {

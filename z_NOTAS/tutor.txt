@@ -27,3 +27,24 @@ pero tiene que estar todo en una funcion y sin afectar a la clase, o por fuera o
 el export tiene que quedar limpio
 
 -------------------------------------------------------------------------------------
+
+mmm estuve mirando cmo lo haces con mongo y archivo. No seria tan distinto, dependiendo de la forma en que quieras hacerlo.
+Para memoria accedes al this. Si al metodo lo trabajas sobre la clase padre
+Si lo trabajas en la derivada, podes acceder mediante super.
+Por ejemplo si en el constructor del contendor de memoria tenes guardado el array en this.elementos
+Para acceder en la derivada haces super.elementos. Y ya con eso podes trabajar sobre el array*
+
+Ah pero ya te entendi. Lo que me comentas es que queres buscar ese producto por id.
+para asi meterlo al carrito
+claro, tambien dependera de como lo quieras hacer o como lo hiciste
+
+Podes importar la instancia creada, o hacer una funcion por fuera de la clase (quedaria mejor en mi opinion)
+Y si no se quiere crear cosas de más, en un punto central como la ruta misma
+Buscas el producto
+Buscas el carrito
+Le actualizas los productos y reemplazas el viejo carrito por el nuevo
+Para firebase, podrias dentro del mismo dao de carrito acceder a esa coleccion. Creo que sin problemas
+no accederias a this.collection si no que a db.collection(‘carrito’)
+esa es una, otra seria hacer algo similar a memoria.
+
+-----------------------------------------------------------------------------------------------------------

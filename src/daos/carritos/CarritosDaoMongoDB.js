@@ -11,7 +11,7 @@ module.exports = class CarritosDaoMongoDB extends ContenedorMongodb {
     ///////////////
     //CREAR CARRITO
     //////////////
-    async crearCarritoMongoDB (objeto) {
+    async crearCarrito(objeto) {
 
         try {   
             console.log("nuevo carrito") 
