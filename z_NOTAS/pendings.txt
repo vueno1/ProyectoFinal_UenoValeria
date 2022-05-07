@@ -1,0 +1,10 @@
+//memoria//
+traer la instancia productos a mi carrito . 
+
+//archivo //
+ok, terminado 
+
+//mongoose//
+solo falta eliminar id de carrito id. 
+
+//firebase//

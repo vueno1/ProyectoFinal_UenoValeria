@@ -1,11 +1,21 @@
 const ContenedorMongodb = require("../../contenedores/ContenedorMongodb")
 const Carrito = require("../../models/CarritoModel")
 const Producto = require("../../models/ProductosModel")
+const mongoose = require("mongoose")
 
 module.exports = class CarritosDaoMongoDB extends ContenedorMongodb {
 
     constructor() {
         super(Carrito)
+    }
+
+    async mostrarTodoCarrito () {
+        try {
+            console.log("READ")
+            return await Carrito.find()
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     ///////////////
@@ -71,18 +81,11 @@ module.exports = class CarritosDaoMongoDB extends ContenedorMongodb {
     /////////////////////////////////////
     async borrarProductoDeCarrito(idCarrito, id) {
         try{
-            console.log("producto borrado de carrito")
-            await Carrito.findOne({_id:idCarrito})
-
-            /////////
-            //PENDING 
-            /////////
-            //await Carrito.findOneAndUpdate({_id:idCarrito}, {productos: {$pull: {_id:id}}})
-            //const filtro = carrito.productos.filter(producto => producto._id === id)
-            //await Carrito.findByIdAndUpdate({_id: idCarrito}, {$push: filtro})
-           //lo que podes hacer es obtener todo el carrito, filtras el producto y lo volves a almacenar.
-            //aparte, que te quedarian los mismos metodos tanto para productos como para carrito                   
+            console.log("producto eliminado de carrito")
+            await Carrito.findByIdAndUpdate(idCarrito, {$pull: {"productos": mongoose.Types.ObjectId(id)}})
+            //mongoose.Types.ObjectId(id)
             return await Carrito.find()
+                    
         }
         catch(error){
             console.log(error.message)

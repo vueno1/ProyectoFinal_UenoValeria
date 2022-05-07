@@ -10,9 +10,22 @@ module.exports = class CarritosDaoFirebase extends ContenedorFirebase {
         super("carritos")
     }
 
-    /////////////////
-    //CREAR CARRITOS
-    ////////////////
+    async mostrarTodoCarrito() {
+        try {
+            const querySnapShot = await this.collection.get() 
+            let docs = querySnapShot.docs;
+            const response = docs.map((doc) =>({
+                id: doc.id,
+                timestamp: doc.data().timestamp,
+                productos: doc.data().productos
+            }));
+            return response
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     async crearCarrito() {
         try {
             console.log("CREANDO CARRITO")
@@ -22,99 +35,86 @@ module.exports = class CarritosDaoFirebase extends ContenedorFirebase {
                 productos: []            
               
             })
-            return await this.mostrarTodo()
+            return await this.mostrarTodoCarrito()
         }
         catch(error) {
             console.log(error.message)
         }
     }
 
-    //////////////////////////////
-    //GUARDAR PRODUCTO EN CARRITO 
-    //////////////////////////////
     async guardarEnCarrito(idCarrito, idProducto) {
         try {
-            console.log("producto guardado en carrito")
-            const productos = await misProductos.mostrarTodo()
-            const productoSeleccionado = productos.find(producto => producto.id === idProducto)
-            const misCarritos = this.mostrarTodo()
-            const miCarritoElegido = misCarritos.find(carrito => carrito.id === idCarrito)
-            console.log(miCarritoElegido)
-            console.log(productoSeleccionado)
-    
+            console.log("GUARDANDO EN CARRITO")
+            const doc = this.collection.doc(`${idCarrito}`)
+            const docs = await doc.get()
+            const data = docs.data(); 
+            //obtengo la data de mis carritos, pasando x promesas y formas de firebase de obtener info.      
 
+            //luego, traigo mi instancia de productos
+            const productos = await misProductos.mostrarTodo()
+            const productoSeleccionado = productos.find(producto=>producto.id===idProducto)
+ 
+            //tomo la propiedad "productos" de mi carrito para pushear mi producto seleccionado
+            const productosEnCarrito = data.productos
+            productosEnCarrito.push(productoSeleccionado);
+    
+            //actualizo mi propiedad "productos" de mi carrito.
+            await doc.update({
+                timestamp: Date.now(),
+                productos: productosEnCarrito
+            });
+
+            return await this.mostrarTodoCarrito()            
         }
         catch(error){
             console.log(error.message)
         }
     }
+
+    async buscarCarritoPorId (id) {
+        try{
+            console.log("muestro carrito")
+            const doc = this.collection.doc(`${id}`)
+            const docs = await doc.get()
+            const data = docs.data(); 
+            return data
+        }
+        catch(error) {
+            console.log(error.message)
+        }
+    }
+
+    async borrarCarritoPorId (id) {
+        try{
+            console.log("carrito borrado")
+            const doc = this.collection.doc(`${id}`)
+            await doc.delete()
+            return await this.mostrarTodoCarrito()
+
+        }
+        catch(error) {
+            console.log(error.message)
+        }
+    }
+
+    async borrarProductoDeCarrito(id, idCarrito) {
+        try{
+            console.log("producto borrado")
+            const doc = this.collection.doc(`${idCarrito}`)
+            const docs = await doc.get()
+            const data = docs.data();
+            const productos = data.productos
+            const productosEnCarrito = productos.filter(producto=>producto.id!==id)
+            await doc.update({
+                timestamp: Date.now(),
+                productos: productosEnCarrito
+            });
+            return await this.mostrarTodoCarrito()
+        }
+        catch(error) {
+            console.log(error.message)
+        }
+    }
 }
-
-    // async guardarEnCarrito(carritoId,id) {
-    //     try{
-    //         console.log("producto guardado en carrito")
-    //         const productoElegido = await Producto.findOne({_id:id})
-    //         console.log(`AGREGADO ${productoElegido}`)
-    //         await Carrito.findByIdAndUpdate(carritoId, {$push: {"productos": productoElegido}}) 
-    //         return Carrito.find()           
-    //     }
-    //     catch(error) {
-    //         console.log(error.message)
-    //     }
-    // }
-
-    // ///////////////////////
-    // //BUSCAR CARRITO POR ID 
-    // ///////////////////////
-    // async buscarCarritoPorId (id) {
-    //     try{
-    //         console.log("carrito Mostrado")
-    //         return await Carrito.findOne({_id:id})
-    //     }
-    //     catch(error){
-    //         console.log(error.message)
-    //     }
-    // }
-
-    // /////////////////////////////
-    // //ELIMINAR CARRITO X ID
-    // /////////////////////////////
-    // async borrarCarritoPorId (id) {
-    //     try{
-    //         console.log("carrito borrado")
-    //         await Carrito.findByIdAndDelete({_id: id})
-    //         return await Carrito.find()
-    //     }
-    //     catch(error){
-    //         console.log(error.message)
-    //     }
-    // }
-
-    // ///////////////////////////////////
-    // //ELIMINAR PRODUCTO DE CARRITO X ID
-    // /////////////////////////////////////
-    // async borrarProductoDeCarrito(idCarrito, id) {
-    //     try{
-    //         console.log("producto borrado de carrito")
-    //         await Carrito.findOne({_id:idCarrito})
-
-    //         /////////
-    //         //PENDING 
-    //         /////////
-    //         //await Carrito.findOneAndUpdate({_id:idCarrito}, {productos: {$pull: {_id:id}}})
-    //         //const filtro = carrito.productos.filter(producto => producto._id === id)
-    //         //await Carrito.findByIdAndUpdate({_id: idCarrito}, {$push: filtro})
-    //        //lo que podes hacer es obtener todo el carrito, filtras el producto y lo volves a almacenar.
-    //         //aparte, que te quedarian los mismos metodos tanto para productos como para carrito                   
-    //         return await Carrito.find()
-    //     }
-    //     catch(error){
-    //         console.log(error.message)
-    //     }
-    // }
-
     
-    //buscarCarritoPorId(id)
-    //guardarEnCarrito(idCarrito, idProducto)
-    //borrarCarritoPorId(id)
-    //borrarProductoDeCarrito(idProducto, idCarrito)
+   

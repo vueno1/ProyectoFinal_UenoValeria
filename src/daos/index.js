@@ -35,5 +35,5 @@ const DB = process.env.SELECTED_DB || "firebase" || "memoria" || "mongo"
 //DB es una variable global que se puede usar en todo el proyecto
 //process.env.SELECTED_DB es una variable de entorno que se puede usar en todo el proyecto
 
-const { miCarrito, misProductos } = DATABASES["archivo"]
+const { miCarrito, misProductos } = DATABASES["firebase"]
 module.exports = { miCarrito, misProductos }
