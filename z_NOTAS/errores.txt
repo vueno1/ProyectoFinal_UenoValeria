@@ -70,3 +70,7 @@ mongodb
 cuidado con el (_id) y NO poner id solo.
 
 -----------------------------------------------------
+
+parametros: 
+a veces cuando da undefined es porque los parametros estan al reves. 
+por ejemplo, los id. 

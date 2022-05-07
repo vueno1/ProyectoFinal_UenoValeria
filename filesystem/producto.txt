@@ -1,3 +1,32 @@
 [
-
+    {
+        "nombre": "peras",
+        "descripcion": "marca tombo",
+        "codigo": 50,
+        "foto": "https://cdn3.iconfinder.com/data/icons/fruits-52/150/icon_fruit_laranja-256.png",
+        "precio": 25,
+        "stock": 35,
+        "id": 2,
+        "timestamp": 1651939235726
+    },
+    {
+        "nombre": "mango",
+        "descripcion": "foody foody",
+        "codigo": 35,
+        "foto": "https://cdn3.iconfinder.com/data/icons/fruits-52/150/icon_fruit_abacate-128.png",
+        "precio": 10,
+        "stock": 30,
+        "id": 3,
+        "timestamp": 1651939011288
+    },
+    {
+        "nombre": "coco",
+        "descripcion": "finder",
+        "codigo": 36,
+        "foto": "https://cdn3.iconfinder.com/data/icons/fruits-52/150/icon_fruit_coco-128.png",
+        "precio": 25,
+        "stock": 30,
+        "id": 4,
+        "timestamp": 1651939033206
+    }
 ]

@@ -2,8 +2,8 @@ const ContenedorMemoria = require("../../contenedores/ContenedorMemoria"); //imp
 
 module.exports = class CarritosDaoMemoria extends ContenedorMemoria {
 
-    constructor() {
-        super(),
+    constructor(contenido) {
+        super(contenido),
         this.carrito = []
     }
 
@@ -46,9 +46,10 @@ module.exports = class CarritosDaoMemoria extends ContenedorMemoria {
 
     async guardarEnCarrito(id, carritoId) {
         try {
-
-            console.log(this.contenido.length)
-        
+            const idNumber = Number(id)
+            const idCarritoNumber = Number(carritoId)
+            console.log(idNumber, idCarritoNumber)
+            console.log(`aca esta mi instancia (carrito)`, this.contenido)       
         }      
         catch (error) {
             console.log(error.message)

@@ -15,7 +15,8 @@ module.exports=class ContenedorMemoria {
 
     async buscarPorId (id) { 
         try {
-            const resultado = await this.contenido.find (elemento => elemento.id === id)
+            const idNumber = Number(id)
+            const resultado = await this.contenido.find (elemento => elemento.id === idNumber)
             return resultado   
         }
         catch (error) {
@@ -41,11 +42,12 @@ module.exports=class ContenedorMemoria {
 
     async borrarPorId(id) {
         try {
-            const productoIndice = this.contenido.findIndex(producto => producto.id === id)
+            const idNumber = Number(id)
+            const productoIndice = this.contenido.findIndex(producto => producto.id === idNumber)
             if(productoIndice === -1 ) return 'el id no existe'
             
-            this.contenido = this.contenido.filter(elemento=>elemento.id !== id)
-            return `el id = ${id} fue eliminado`
+            this.contenido = this.contenido.filter(elemento=>elemento.id !== idNumber)
+            return `el id = ${idNumber} fue eliminado`
 
         }
         catch(error) {

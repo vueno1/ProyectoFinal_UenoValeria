@@ -1,3 +1,7 @@
 [
-
+    {
+        "carritoNumero_id": 3,
+        "timestamp": 1651941434071,
+        "productos": []
+    }
 ]

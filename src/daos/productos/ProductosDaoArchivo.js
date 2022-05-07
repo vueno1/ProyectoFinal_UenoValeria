@@ -10,8 +10,9 @@ module.exports = class Producto extends ContenedorArchivo {
   
     async actualizarPorId(id, reemplazo) {
         try {
+            const idNumber = Number(id)
             const contenido = await this.mostrarTodo()
-            const productoIndice = contenido.findIndex(producto => producto.id === id)   
+            const productoIndice = contenido.findIndex(producto => producto.id === idNumber)   
             if(productoIndice === -1) return
             
             contenido[productoIndice] = {

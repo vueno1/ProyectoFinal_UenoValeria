@@ -8,6 +8,17 @@ module.exports = class Producto extends ContenedorArchivo {
     constructor() {
         super("./filesystem/carrito.txt")
     } 
+
+    async mostrarTodoCarrito(){
+        try {
+            const lectura = await fs.promises.readFile(ruta,"utf-8")
+            const contenido = await JSON.parse(lectura)
+            return contenido
+        }
+        catch(error) {
+            console.error(error)
+        }
+    }
     
     async crearCarrito () {
         try{
@@ -40,20 +51,30 @@ module.exports = class Producto extends ContenedorArchivo {
         }
     }
 
-    async guardarEnCarrito(id, carritoId) { 
+    async guardarEnCarrito(carritoId, id) { 
         try {
-            const lecturaArchivoCarrito = await fs.promises.readFile(ruta,"utf-8")
-            const carritos = await JSON.parse(lecturaArchivoCarrito)
-            const lecturaArchivoProductos = await fs.promises.readFile(rutaProductos, "utf-8")
-            const productos = await JSON.parse(lecturaArchivoProductos)
+            const idNumber = Number(id)
+            const idCarritoNumber = Number(carritoId)
+            const archivoCarrito = await fs.promises.readFile(ruta,"utf-8")
+            const contenido = await JSON.parse(archivoCarrito)
 
-            const carritoSeleccionado = carritos.find(carrito => carrito.carritoNumero_id === carritoId)
-            const productoElegido = productos.find(producto=>producto.id === id)
-            if(!carritoSeleccionado || !productoElegido) return "el carrito o producto no existe!"
+            const carritoIndice = contenido.findIndex(carrito => carrito.carritoNumero_id === idCarritoNumber)
+            if(carritoIndice === -1) return "el carrito no existe!"
 
-            carritoSeleccionado.productos.push(productoElegido)
-            fs.writeFileSync(ruta, JSON.stringify(carritos, null, 4))            
-            return productoElegido
+            const productoIndice = contenido[carritoIndice].productos.findIndex(producto => producto.id === idNumber)
+            if(productoIndice !== -1) return "el producto ya existe en el carrito!"
+
+            // const producto = await this.buscarPorId(idNumber)
+            const productosArchivo = await fs.promises.readFile(rutaProductos,"utf-8")
+            const productos = await JSON.parse(productosArchivo)
+            const producto = productos.find(producto => producto.id === idNumber)
+            if(!producto) return "el producto no existe!"
+            
+            const carritoSeleccionado = contenido.find(carrito => carrito.carritoNumero_id === idCarritoNumber)
+            carritoSeleccionado.productos.push(producto)
+            fs.writeFileSync(ruta, JSON.stringify(contenido, null, 4))
+            return contenido          
+            
         }      
         catch (error) {
             console.log(error)
@@ -62,9 +83,10 @@ module.exports = class Producto extends ContenedorArchivo {
 
     async buscarCarritoPorId (id) {
         try {
+            const idNumber = Number(id)
             const lectura = await fs.promises.readFile(this.ruta,"utf-8")
             const contenido = await JSON.parse(lectura)
-            const buscarPorId = contenido.find(elemento => elemento.carritoNumero_id === id)
+            const buscarPorId = contenido.find(elemento => elemento.carritoNumero_id === idNumber)
             return buscarPorId
         }
         catch(error) {
@@ -74,11 +96,12 @@ module.exports = class Producto extends ContenedorArchivo {
 
     async borrarCarritoPorId (id) {
         try{
+            const idNumber = Number(id)
             const contenido = await this.mostrarTodo() 
-            const productoIndice = contenido.findIndex(producto => producto.carritoNumero_id === id)  
+            const productoIndice = contenido.findIndex(producto => producto.carritoNumero_id === idNumber)  
             if(productoIndice === -1) return "el id no fue encontrado!" 
                
-            const contenidoFiltrado = contenido.filter(producto => producto.carritoNumero_id !== id)
+            const contenidoFiltrado = contenido.filter(producto => producto.carritoNumero_id !== idNumber)
             fs.writeFileSync(this.ruta,JSON.stringify(contenidoFiltrado, null, 4))
             return `el id = ${id} fue eliminado`
         }
@@ -89,14 +112,16 @@ module.exports = class Producto extends ContenedorArchivo {
 
     async borrarProductoDeCarrito(id, idCarrito) {
         try {
+            const idNumber = Number(id)
+            const idCarritoNumber = Number(idCarrito)
             const archivoCarrito = await fs.promises.readFile(ruta,"utf-8")
             const contenido = await JSON.parse(archivoCarrito)
-            const carritoIndice = contenido.findIndex(carrito => carrito.carritoNumero_id === idCarrito)
+            const carritoIndice = contenido.findIndex(carrito => carrito.carritoNumero_id === idCarritoNumber)
             if(carritoIndice === -1) return "el carrito no existe!"
-            const productoIndice = contenido[carritoIndice].productos.findIndex(producto => producto.id === id)
+            const productoIndice = contenido[carritoIndice].productos.findIndex(producto => producto.id === idNumber)
             if(productoIndice === -1) return "el producto no existe!"
-            const carritoSeleccionado = contenido.find(carrito => carrito.carritoNumero_id === idCarrito)
-            const productoFiltrado = carritoSeleccionado.productos.filter(producto => producto.id !== id)
+            const carritoSeleccionado = contenido.find(carrito => carrito.carritoNumero_id === idCarritoNumber)
+            const productoFiltrado = carritoSeleccionado.productos.filter(producto => producto.id !== idNumber)
             carritoSeleccionado.productos = productoFiltrado
             fs.writeFileSync(ruta, JSON.stringify(contenido, null, 4))
             return contenido

@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
 })
 
 router.put("/:id", async (req, res) =>{
-    const id = Number(req.params.id)
+    const id = req.params.id
     const objetoReemplazo = req.body
     const actualizacion = await misProductos.actualizarPorId(id, objetoReemplazo)
 
@@ -35,7 +35,7 @@ router.put("/:id", async (req, res) =>{
 })
 
 router.delete("/:id", async (req,res) =>{    
-    const id = Number(req.params.id)
+    const id = req.params.id
     const eliminacion = await misProductos.borrarPorId(id)
     if(!eliminacion) {
         res.send("el id no existe!")

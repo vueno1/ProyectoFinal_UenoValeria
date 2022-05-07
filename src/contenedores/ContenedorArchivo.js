@@ -19,9 +19,10 @@ module.exports = class ContenedorArchivo {
 
     async buscarPorId (id) {
         try {
+            const idNumber = Number(id)
             const lectura = await fs.promises.readFile(this.ruta,"utf-8")
             const contenido = await JSON.parse(lectura)
-            const buscarPorId = contenido.find(elemento => elemento.id === id)
+            const buscarPorId = contenido.find(elemento => elemento.id === idNumber)
             return buscarPorId
         }
         catch(error) {
@@ -49,11 +50,13 @@ module.exports = class ContenedorArchivo {
 
     async borrarPorId (id) {
         try{
+            const idNumber = Number(id)
             const contenido = await this.mostrarTodo()    
-            const productoIndice = contenido.findIndex(producto => producto.id === id)   
+            const productoIndice = contenido.findIndex(producto => producto.id === idNumber)  
+
             if(productoIndice === -1) return "el id no fue encontrado!" 
                
-            const contenidoFiltrado = contenido.filter(producto => producto.id !== id)
+            const contenidoFiltrado = contenido.filter(producto => producto.id !== idNumber)
             fs.writeFileSync(this.ruta,JSON.stringify(contenidoFiltrado, null, 4))
             return `el id = ${id} fue eliminado`
         }
