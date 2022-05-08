@@ -20,7 +20,7 @@ router.get("/:id/productos", async (req,res) =>{
     const id = req.params.id
     const carrito = await miCarrito.buscarCarritoPorId(id);
     res.send ({
-        carrito
+        productos: carrito.productos
     }) 
 })
 

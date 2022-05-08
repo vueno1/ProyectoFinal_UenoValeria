@@ -8,3 +8,4 @@ ok, terminado
 solo falta eliminar id de carrito id. 
 
 //firebase//
+ok, terminado (por ahi poner condiciones si el numero no existe)

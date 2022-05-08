@@ -1,7 +1,6 @@
 const ContenedorMongodb = require("../../contenedores/ContenedorMongodb")
 const Carrito = require("../../models/CarritoModel")
 const Producto = require("../../models/ProductosModel")
-const mongoose = require("mongoose")
 
 module.exports = class CarritosDaoMongoDB extends ContenedorMongodb {
 
@@ -18,9 +17,6 @@ module.exports = class CarritosDaoMongoDB extends ContenedorMongodb {
         }
     }
 
-    ///////////////
-    //CREAR CARRITO
-    //////////////
     async crearCarrito(objeto) {
 
         try {   
@@ -33,9 +29,6 @@ module.exports = class CarritosDaoMongoDB extends ContenedorMongodb {
         }
     }
 
-    ////////////////////////////
-    //GUARDAR PRODUCTO EN CARRITO
-    /////////////////////////////
     async guardarEnCarrito(carritoId,id) {
         try{
             console.log("producto guardado en carrito")
@@ -49,9 +42,6 @@ module.exports = class CarritosDaoMongoDB extends ContenedorMongodb {
         }
     }
 
-    ///////////////////////
-    //BUSCAR CARRITO POR ID 
-    ///////////////////////
     async buscarCarritoPorId (id) {
         try{
             console.log("carrito Mostrado")
@@ -62,9 +52,6 @@ module.exports = class CarritosDaoMongoDB extends ContenedorMongodb {
         }
     }
 
-    /////////////////////////////
-    //ELIMINAR CARRITO X ID
-    /////////////////////////////
     async borrarCarritoPorId (id) {
         try{
             console.log("carrito borrado")
@@ -76,16 +63,15 @@ module.exports = class CarritosDaoMongoDB extends ContenedorMongodb {
         }
     }
 
-    ///////////////////////////////////
-    //ELIMINAR PRODUCTO DE CARRITO X ID
-    /////////////////////////////////////
-    async borrarProductoDeCarrito(idCarrito, id) {
+    async borrarProductoDeCarrito(id,idCarrito) {
         try{
+
+            ////////////////
+            //PENDING////
+            ////////////
             console.log("producto eliminado de carrito")
-            await Carrito.findByIdAndUpdate(idCarrito, {$pull: {"productos": mongoose.Types.ObjectId(id)}})
-            //mongoose.Types.ObjectId(id)
-            return await Carrito.find()
-                    
+            await Carrito.findOneAndUpdate({_id: idCarrito}, {$pull: {"productos": {_id: id}}})  
+            return await Carrito.find()                    
         }
         catch(error){
             console.log(error.message)
