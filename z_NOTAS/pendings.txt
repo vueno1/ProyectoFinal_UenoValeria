@@ -5,7 +5,7 @@ traer la instancia productos a mi carrito .
 ok, terminado 
 
 //mongoose//
-solo falta eliminar id de carrito id. 
+ok, terminado (faltaria los condicionales)
 
 //firebase//
 ok, terminado (por ahi poner condiciones si el numero no existe)

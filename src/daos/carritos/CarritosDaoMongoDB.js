@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose")
 const ContenedorMongodb = require("../../contenedores/ContenedorMongodb")
 const Carrito = require("../../models/CarritoModel")
 const Producto = require("../../models/ProductosModel")
@@ -33,7 +34,6 @@ module.exports = class CarritosDaoMongoDB extends ContenedorMongodb {
         try{
             console.log("producto guardado en carrito")
             const productoElegido = await Producto.findOne({_id:id})
-            console.log(`AGREGADO ${productoElegido}`)
             await Carrito.findByIdAndUpdate(carritoId, {$push: {"productos": productoElegido}}) 
             return Carrito.find()           
         }
@@ -63,15 +63,13 @@ module.exports = class CarritosDaoMongoDB extends ContenedorMongodb {
         }
     }
 
-    async borrarProductoDeCarrito(id,idCarrito) {
+    async borrarProductoDeCarrito(idProducto, idCarrito) {
         try{
-
-            ////////////////
-            //PENDING////
-            ////////////
-            console.log("producto eliminado de carrito")
-            await Carrito.findOneAndUpdate({_id: idCarrito}, {$pull: {"productos": {_id: id}}})  
-            return await Carrito.find()                    
+      
+            console.log("ELIMINAR PRODUCTO")
+            const productoElegido = await Producto.findOne({_id:idProducto})
+            await Carrito.findByIdAndUpdate(idCarrito, {$pull: {"productos": productoElegido}})
+            return Carrito.find()                      
         }
         catch(error){
             console.log(error.message)
