@@ -1,0 +1,35 @@
+[2022-07-04T20:35:36.604] [WARN] archivo - error al loggearse!
+[2022-07-04T20:36:59.051] [WARN] archivo - error al loggearse!
+[2022-07-04T20:37:00.981] [WARN] archivo - error al loggearse!
+[2022-07-04T20:37:13.170] [WARN] archivo - error al loggearse!
+[2022-07-04T20:38:32.533] [WARN] archivo - el usuario ya esta registrado!!
+[2022-07-04T20:38:32.685] [WARN] archivo - warning = Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+[2022-07-04T20:40:40.805] [WARN] archivo - el usuario ya esta registrado!!
+[2022-07-04T20:40:40.972] [WARN] archivo - warning = Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+[2022-07-05T15:39:38.057] [WARN] archivo - warning = ReferenceError: carrito is not defined
+[2022-07-05T16:56:49.010] [WARN] archivo - warning = ReferenceError: _id is not defined
+[2022-07-05T17:50:27.203] [WARN] archivo - warning = ReferenceError: _id is not defined
+[2022-07-05T17:58:32.594] [WARN] archivo - warning = ReferenceError: _id is not defined
+[2022-07-05T17:59:08.032] [WARN] archivo - warning = ReferenceError: _id is not defined
+[2022-07-06T10:28:13.105] [WARN] archivo - warning = TypeError: user.push is not a function
+[2022-07-06T11:04:35.701] [WARN] archivo - warning = ReferenceError: _id is not defined
+[2022-07-06T11:05:22.972] [WARN] archivo - warning = ReferenceError: _id is not defined
+[2022-07-06T11:05:35.500] [WARN] archivo - warning = ReferenceError: _id is not defined
+[2022-07-06T11:06:10.153] [WARN] archivo - warning = ReferenceError: _id is not defined
+[2022-07-06T11:07:53.699] [WARN] archivo - warning = ReferenceError: _id is not defined
+[2022-07-06T11:11:00.179] [WARN] archivo - warning = ReferenceError: _id is not defined
+[2022-07-06T12:57:09.460] [WARN] archivo - warning = ReferenceError: _id is not defined
+[2022-07-06T13:34:09.349] [WARN] archivo - warning = ReferenceError: _id is not defined
+[2022-07-06T13:55:49.873] [WARN] archivo - warning = ReferenceError: _id is not defined
+[2022-07-06T14:02:19.439] [WARN] archivo - warning = ReferenceError: _id is not defined
+[2022-07-06T14:20:41.179] [WARN] archivo - warning = ReferenceError: mongoose is not defined
+[2022-07-06T14:21:39.277] [WARN] archivo - warning = ReferenceError: mongoose is not defined
+[2022-07-06T14:22:17.981] [WARN] archivo - warning = ReferenceError: mongoose is not defined
+[2022-07-06T14:39:27.918] [WARN] archivo - warning = ReferenceError: mongoose is not defined
+[2022-07-06T14:41:13.085] [WARN] archivo - warning = TypeError: Cannot read properties of undefined (reading 'Types')
+[2022-07-06T14:41:28.478] [WARN] archivo - warning = TypeError: Cannot read properties of undefined (reading 'Types')
+[2022-07-06T14:41:35.096] [WARN] archivo - warning = TypeError: Cannot read properties of undefined (reading 'Types')
+[2022-07-06T14:50:07.393] [WARN] archivo - warning = TypeError: Cannot read properties of undefined (reading 'save')
+[2022-07-06T14:51:04.955] [WARN] archivo - warning = ReferenceError: mongoose is not defined
+[2022-07-06T14:51:50.407] [WARN] archivo - warning = ReferenceError: mongoose is not defined
+[2022-07-06T15:27:35.454] [WARN] archivo - warning = BSONTypeError: Argument passed in does not match the accepted types

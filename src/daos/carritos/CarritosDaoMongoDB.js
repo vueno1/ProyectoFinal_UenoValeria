@@ -1,4 +1,3 @@
-const { default: mongoose } = require("mongoose")
 const ContenedorMongodb = require("../../contenedores/ContenedorMongodb")
 const Carrito = require("../../models/CarritoModel")
 const Producto = require("../../models/ProductosModel")

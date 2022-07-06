@@ -1,13 +1,4 @@
-const mongoose = require("mongoose");
-
-mongoose.connect(
-    "mongodb://localhost:27017/ecommerce",
-    () =>{
-        console.log("Conectado a MongoDB");
-    },e => {
-        console.log(e.message);
-    }
-);
+const mongoose = require("../config/mongoose")
 
 module.exports = class ContenedorMongodb {
 
