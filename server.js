@@ -1,6 +1,5 @@
-const dotenv = require("dotenv");
-dotenv.config();
-const PORT = 8080
+require("dotenv").config() 
+const PORT = process.env.PORT || 3000
 const server = require("./src/config/app")
 
 // //middleware para verificar ruta correcta.

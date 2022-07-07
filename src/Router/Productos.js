@@ -3,23 +3,6 @@ const { misProductos } = require("../daos/index")
 const { Router } = require('express');
 const router = Router();
 
-// router.use((req,res,next) =>{
-//     if(req.query.nombre === "valeria") return next()
-//     res.send({
-//         error: -1,
-//         descripcion: "usuario no autorizado"
-//     })
-// })
-
-//ruta => api/productos
-// router.get('/', async (req,res) =>{
-//     const productos = await misProductos.mostrarTodo()
-//     if(!productos.length) return res.send("no hay nada!")
-//     res.render("productos", {
-//         productos: productos
-//     })
-// })
-
 router.post('/', async (req, res) => {
     const producto = await req.body
     const productos = await misProductos.guardar(producto)

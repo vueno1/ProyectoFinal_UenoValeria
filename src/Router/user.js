@@ -7,6 +7,8 @@ require("../config/mongoose")
 const { miCarrito, misProductos } = require("../daos/index")
 const mongoose = require("mongoose")
 const {createTransport} = require("nodemailer")
+const twilioClient = require("../twilio/twilio")
+require("dotenv").config() 
 
 const mailAdministrador = "aurore.vonrueden46@ethereal.email"
 
@@ -133,8 +135,7 @@ router.get("/logout", async (req, res) => {
         req.session.destroy()
         // const carrito = await miCarrito.mostrarTodoCarrito()
         // const carritoId = carrito.forEach(e => mongoose.Types.ObjectId(e._id).valueOf())
-        // await miCarrito.borrarCarritoPorId(carritoId)
-        
+        // await miCarrito.borrarCarritoPorId(carritoId)        
         res.redirect("/login")
     }
     catch(error){
