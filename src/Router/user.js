@@ -6,6 +6,18 @@ const passport = require('../passport/passport')
 require("../config/mongoose")
 const { miCarrito, misProductos } = require("../daos/index")
 const mongoose = require("mongoose")
+const {createTransport} = require("nodemailer")
+
+const mailAdministrador = "aurore.vonrueden46@ethereal.email"
+
+const transporter = createTransport({
+    host: 'smtp.ethereal.email',
+    port: 587,
+    auth: {
+        user: mailAdministrador,
+        pass: 'PMUZRPdWqUpBqGXknD'
+    }
+});
 
 const log4js = require("../logs/log")
 const logger = log4js.getLogger()
@@ -78,6 +90,16 @@ router.post("/register", async (req,res) =>{
         })
 
         await user.save()
+
+        const mailOptions = {
+            from: "servidor",
+            to: mailAdministrador,
+            subject: "nuevo Usuario Registrado",
+            html: `datos del usuario: ${user}`
+        }
+
+        await transporter.sendMail(mailOptions)
+        logger.info("mail enviado!")
         logger.info("usuario guardado!")
         res.redirect("/login")
     }
@@ -93,19 +115,11 @@ router.get("/index", async (req, res) => {
             _id: req.user._id
         })
 
-        const crearCarrito = await miCarrito.crearCarrito()   
-        
-        // const carrito = await miCarrito.mostrarTodoCarrito()
-        // const carritoId = carrito.forEach(e => e._id)
-        // const _id = mongoose.Types.ObjectId(carritoId).valueOf()
-        // console.log(_id)
-
         logger.info("usted esta en el index")
         res.render("index", {
             nombre: user.name,
             avatar: user.avatar,
-            productos: productos,
-            carrito: crearCarrito
+            productos: productos
         })
     }
     catch(error){
@@ -117,12 +131,11 @@ router.get("/logout", async (req, res) => {
     try {
         logger.info("gracias por su visita!")
         req.session.destroy()
-        const carrito = await miCarrito.mostrarTodoCarrito()
-        const carritoId = carrito.forEach(e => mongoose.Types.ObjectId(e._id).valueOf())
-        console.log(carritoId)
-        await miCarrito.borrarCarritoPorId(carritoId)
+        // const carrito = await miCarrito.mostrarTodoCarrito()
+        // const carritoId = carrito.forEach(e => mongoose.Types.ObjectId(e._id).valueOf())
+        // await miCarrito.borrarCarritoPorId(carritoId)
         
-        res.render("login")
+        res.redirect("/login")
     }
     catch(error){
         loggerwarnFile.warn(`warning = ${error}`)

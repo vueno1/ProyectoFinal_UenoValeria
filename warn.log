@@ -33,3 +33,6 @@
 [2022-07-06T14:51:04.955] [WARN] archivo - warning = ReferenceError: mongoose is not defined
 [2022-07-06T14:51:50.407] [WARN] archivo - warning = ReferenceError: mongoose is not defined
 [2022-07-06T15:27:35.454] [WARN] archivo - warning = BSONTypeError: Argument passed in does not match the accepted types
+[2022-07-07T14:48:42.131] [WARN] archivo - warning = Error: getaddrinfo ENOTFOUND gmail
+[2022-07-07T14:54:13.383] [WARN] archivo - warning = Error: getaddrinfo ENOTFOUND gmail
+[2022-07-07T15:18:32.853] [WARN] archivo - warning = Error: getaddrinfo ENOTFOUND gmail
