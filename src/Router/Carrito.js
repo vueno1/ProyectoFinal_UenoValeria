@@ -1,7 +1,8 @@
 const { miCarrito } = require("../daos/index")
 const { Router } = require('express');
 const router = Router();
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const { exists } = require("../models/user");
 
 router.get('/', async (req,res) =>{
     const carrito = await miCarrito.mostrarTodoCarrito()
@@ -24,17 +25,14 @@ router.post('/', async (req,res) => {
 router.post("/:id", async (req,res)=>{
     const idProducto = req.params.id
     console.log(`producto seleccionado = ${idProducto}`)
-
     const carrito = await miCarrito.mostrarTodoCarrito()
-    console.log(carrito)
+
     if(carrito === undefined || []) {
-        const crearCarrito = await miCarrito.crearCarrito()
-        const idCarrito = crearCarrito.forEach(e=>mongoose.Types.ObjectId(e._id))
-        console.log(idCarrito)
-        await miCarrito.guardarEnCarrito(idCarrito, idProducto)
+        await miCarrito.crearCarrito()
     }
-    const idCarrito = carrito.forEach(e=>mongoose.Types.ObjectId(e._id).valueOf())
+    const idCarrito = mongoose.Types.ObjectId(carrito._id).valueOf()
     await miCarrito.guardarEnCarrito(idCarrito, idProducto)
+
     res.redirect("/index")
 })
 

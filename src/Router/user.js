@@ -9,6 +9,18 @@ const mongoose = require("mongoose")
 const {createTransport} = require("nodemailer")
 const twilioClient = require("../twilio/twilio")
 require("dotenv").config() 
+const multer = require("multer")
+
+const filesStorageEngine = multer.diskStorage({
+    destination:(req, file, cb) =>{
+        cb(null, "../../public")
+    },
+    filename: (req, file, cb) =>{
+        cb(null, Date.now() + '--' + file.originalname)
+    }
+})
+
+const upload = multer({storage:filesStorageEngine})
 
 const mailAdministrador = process.env.MAIL_ADMIN
 const contraseñaAdminMail = process.env.PASS_ADMIN
@@ -23,6 +35,7 @@ const transporter = createTransport({
 });
 
 const log4js = require("../logs/log")
+const Carrito = require('../models/CarritoModel')
 const logger = log4js.getLogger()
 const loggerwarnFile = log4js.getLogger("archivo");
 
@@ -63,7 +76,7 @@ router.get("/register",  (req, res) => {
     }
 })
 
-router.post("/register", async (req,res) =>{
+router.post("/register", upload.array("myfiles", 12) ,async (req,res) =>{
     try{
         const usuariosRegistrados = await Usuario.find()
         const { email,
@@ -91,7 +104,7 @@ router.post("/register", async (req,res) =>{
             phone: phone,
             avatar: avatar
         })
-
+        
         await user.save()
 
         const mailOptions = {
@@ -100,6 +113,8 @@ router.post("/register", async (req,res) =>{
             subject: "nuevo Usuario Registrado",
             html: `datos del usuario: ${user}`
         }
+        
+        console.log(req.files.avatar)
 
         await transporter.sendMail(mailOptions)
         logger.info("mail enviado!")
