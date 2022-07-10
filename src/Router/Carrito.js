@@ -2,6 +2,9 @@ const { miCarrito } = require("../daos/index")
 const { Router } = require('express');
 const router = Router();
 
+const log4js = require("../config/log")
+const logger = log4js.getLogger("archivo")
+
 router.post("/:id", async (req,res)=>{
     try {
         const idProducto = req.params.id
@@ -17,7 +20,7 @@ router.post("/:id", async (req,res)=>{
         res.redirect("/index")
     }
     catch (error) {
-        console.log(error)
+        logger.error(e)
     }
 })
 
@@ -28,7 +31,7 @@ router.delete("/:id", async (req,res) =>{
         res.send(carritoFiltrado)
 
     }catch (e) {
-        console.log(e)
+        logger.error(e)
     }
 })
 
@@ -41,7 +44,7 @@ router.delete("/:id/productos/:id_prod", async (req,res)=>{
 
     }
     catch (e) {
-        console.log(e)
+        logger.error(e)
     }
 })
 

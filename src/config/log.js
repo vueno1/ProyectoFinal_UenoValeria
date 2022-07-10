@@ -2,7 +2,9 @@ const log4js = require('log4js');
 
 log4js.configure({
     appenders: {
-        loggerConsole: {type: "console"}   
+        loggerConsole: {type: "console"},
+        miLoggerFile: {type:"file",  filename: "warn.log"},
+        miLoggerFile2: {type: "file", filename: "error.log"}    
     },
 
     categories: {   
@@ -16,9 +18,18 @@ log4js.configure({
             level: "debug" 
         },
 
+        archivo: { 
+            appenders: ["miLoggerFile"], 
+            level: "warn" 
+        },
+
+        archivo2: { 
+            appenders: ["miLoggerFile2"], 
+            level: "error" 
+        },
 
         todos: { 
-            appenders: ["loggerConsole"], 
+            appenders: ["loggerConsole", "miLoggerFile"], 
             level: "error" 
         }
     }
