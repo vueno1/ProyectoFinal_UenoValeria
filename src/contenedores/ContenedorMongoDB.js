@@ -15,7 +15,6 @@ module.exports = class ContenedorMongodb {
 
     async guardar(objeto) {
         try{ 
-            console.log("SAVED")
             await this.collection.create(objeto)
             return await this.collection.find()
         }
@@ -26,10 +25,7 @@ module.exports = class ContenedorMongodb {
 
     async actualizarPorId(id, reemplazo) {
         try {                  
-            console.log("UPDATED")   
             const objetoAReemplazar = await this.collection.findOne({_id: id})
-            //tutor: mongoose types. 
-            //const response = await this.collection.findByIdAndUpdate(mongoose.Types.ObjectId(id), objetoReemplazo)
             const objetoReemplazo = {
                 nombre: reemplazo.nombre,
                 descripcion: reemplazo.descripcion,
@@ -50,7 +46,6 @@ module.exports = class ContenedorMongodb {
 
     async borrarPorId(id) {
         try {
-            console.log("DELETE BY ID ")
             this.collection.deleteOne({_id : id}, function(err){
                 if(err) return handleError(err)
             })

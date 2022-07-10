@@ -2,37 +2,16 @@ const { miCarrito } = require("../daos/index")
 const { Router } = require('express');
 const router = Router();
 
-// router.get('/', async (req,res) =>{
-//     const carrito = await miCarrito.mostrarTodoCarrito()
-//     res.send(carrito)
-// })
-
-// router.get("/:id/productos", async (req,res) =>{
-//     const id = req.params.id
-//     const carrito = await miCarrito.buscarCarritoPorId(id);
-//     res.send ({
-//         productos: carrito.productos
-//     }) 
-// })
-
-// router.post('/', async (req,res) => {
-//     const carrito = await miCarrito.crearCarrito()
-//     res.send(carrito)
-// })
-
 router.post("/:id", async (req,res)=>{
     try {
         const idProducto = req.params.id
-        console.log(`producto seleccionado = ${idProducto}`)  
         const hayCarrito = await miCarrito.mostrarTodo()
         if(hayCarrito.length <= 0) {
             const idCarrito = await miCarrito.crearCarrito()
-            console.log(idCarrito)
             await miCarrito.guardarEnCarrito(idCarrito, idProducto)
 
         } else {
            const carrito = await miCarrito.mostrarCarrito()
-            console.log(carrito._id)
             await miCarrito.guardarEnCarrito(carrito._id, idProducto)
         }
         res.redirect("/index")

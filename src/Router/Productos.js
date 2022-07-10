@@ -1,5 +1,4 @@
 const { misProductos } = require("../daos/index")
-
 const { Router } = require('express');
 const router = Router();
 

@@ -15,12 +15,14 @@
     {{#each carrito}}
         <tr>
             <th scope="row">{{this.id}}</th>
-            <th scope="row">{{this.productos}}</th>
+            {{#each this.productos}}
+              <td><img width="50" src="{{this.foto}}"  alt="not found"></td>              
+            {{/each}}
         </tr>
     {{/each}}
   </tbody>
 </table>
 
-<button class="btn btn-primary" onclick="location.href='/enviarMail'" >finalizar compra</button>
+<button class="btn btn-primary" onclick="location.href='/enviarMensajes'" >finalizar compra</button>
 
 </div>

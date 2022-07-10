@@ -2,36 +2,23 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
 const Usuario = require('../models/user')
-const passport = require('../passport/passport')
+const passport = require('../config/passport')
 require("../config/mongoose")
 const { miCarrito, misProductos } = require("../daos/index")
-const {createTransport} = require("nodemailer")
-const twilioClient = require("../twilio/twilio")
+const twilioClient = require("../config/twilio")
 require("dotenv").config() 
-
+const transporter = require("../config/nodemailer")
 const mailAdministrador = process.env.MAIL_ADMIN
-const contraseñaAdminMail = process.env.PASS_ADMIN
 
-const transporter = createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
-    auth: {
-        user: mailAdministrador,
-        pass: contraseñaAdminMail
-    }
-})
-
-const log4js = require("../logs/log")
+const log4js = require("../config/log")
 const logger = log4js.getLogger()
-const loggerwarnFile = log4js.getLogger("archivo");
 
 router.get("/login", async (req, res) => {
     try{
-        logger.info("esto es login!")
         res.render("login")
     }
     catch(error){
-        loggerwarnFile.warn(`warning = ${error}`)
+        logger.warn(`warning = ${error}`)
     }
 })
 
@@ -48,17 +35,16 @@ router.get("/login_error", (req, res) => {
         res.render("login_error")
     }
     catch(error){
-        loggerwarnFile.warn(`warning = ${error}`)
+        logger.warn(`warning = ${error}`)
     }
 })
 
 router.get("/register",  (req, res) => {
     try{
-        logger.info("esto es register")
         res.render("register")
     }
     catch(error){
-        loggerwarnFile.warn(`warning = ${error}`)
+        logger.warn(`warning = ${error}`)
     }
 })
 
@@ -89,8 +75,7 @@ router.post("/register" ,async (req,res) =>{
             age: age, 
             phone: phone,
             avatar: avatar
-        })
-        
+        })        
         await user.save()
 
         const mailUsuarioNuevo = {
@@ -99,27 +84,22 @@ router.post("/register" ,async (req,res) =>{
             subject: "nuevo Usuario Registrado",
             html: `datos del usuario: ${user}`
         }
-
         await transporter.sendMail(mailUsuarioNuevo)
-        logger.info("mail enviado!")
-        logger.info("usuario guardado!")
+        logger.info("informacion enviada por mail al administrador")
         res.redirect("/login")
     }
     catch(error){
-        loggerwarnFile.warn(`warning = ${error}`)
+        logger.warn(`warning = ${error}`)
     }
 })
 
 router.get("/index", async (req, res) => {
     try{   
-        logger.info("usted esta en el index")
         const productos = await misProductos.mostrarTodo()
         const user = await Usuario.findById({
             _id: req.user._id
-        })
-        
+        })        
         const carrito = await miCarrito.mostrarTodo()
-
         res.render("index", {
             nombre: user.name,
             avatar: user.avatar,
@@ -128,11 +108,11 @@ router.get("/index", async (req, res) => {
         })
     }
     catch(error){
-        loggerwarnFile.warn(`warning = ${error}`)
+        logger.warn(`warning = ${error}`)
     }
 })
 
-router.get("/enviarMail" , async (req,res) =>{
+router.get("/enviarMensajes" , async (req,res) =>{
     try {
         const carrito = await miCarrito.mostrarTodo()
         const user = await Usuario.findById({
@@ -147,7 +127,7 @@ router.get("/enviarMail" , async (req,res) =>{
                 html: `datos del pedido = ${carrito}`
             }
             await transporter.sendMail(mailPedidos)
-            logger.info("pedido enviado x mail")
+            logger.info("pedido enviado por mail al administrador")
 
             twilioClient.messages
             .create({
@@ -155,7 +135,7 @@ router.get("/enviarMail" , async (req,res) =>{
                 from: process.env.TWILIO_WHATSAPP,
                 to: process.env.WHATSAPP
             })
-            .then(message => console.log(message.sid))
+            .then(message => logger.info(`whatsapp enviado = ${message.sid}`))
             .done()
 
             twilioClient.messages.create({
@@ -163,30 +143,27 @@ router.get("/enviarMail" , async (req,res) =>{
                 from: process.env.TWILIO_SMS,
                 to: `+${user.phone}`
             })
-            .then(message=> console.log(message.sid))
+            .then(message=> logger.info(`sms enviado = ${message.sid}`))
             .done()
         }
         res.redirect("/index")
-
-
     } catch(e) {
-        console.log(e)
+        logger.warn(e)
     }
 })
 
 router.get("/logout", async (req, res) => {
     try {
-        logger.info("gracias por su visita!")
+        logger.info("Adios y gracias por su compra!")
         req.session.destroy() 
         const carrito = await miCarrito.mostrarCarrito()
         if(carrito) {
             await miCarrito.borrarCarritoPorId(carrito._id)     
         }
-        res.redirect("/login")
-        
+        res.redirect("/login")        
     }
     catch(error){
-        loggerwarnFile.warn(`warning = ${error}`)
+        logger.warn(`warning = ${error}`)
     }
 }) 
 
