@@ -1,3 +1,5 @@
+
+const { default: mongoose } = require("mongoose")
 const ContenedorMongodb = require("../../contenedores/ContenedorMongodb")
 const Carrito = require("../../models/CarritoModel")
 const Producto = require("../../models/ProductosModel")
@@ -8,21 +10,30 @@ module.exports = class CarritosDaoMongoDB extends ContenedorMongodb {
         super(Carrito)
     }
 
-    async mostrarTodoCarrito () {
+    async mostrarCarrito () {
         try {
-            console.log("READ")
-            return await Carrito.find()
-        } catch (error) {
-            console.error(error);
+            const carrito = await Carrito.findOne()     
+            return await carrito            
+        }
+        catch(e) {
+            console.log(e)
         }
     }
 
-    async crearCarrito(objeto) {
-
+    async crearCarrito() {
         try {   
-            console.log("nuevo carrito") 
-            await Carrito.create(objeto)
-            return Carrito.find()
+            console.log("CREATE CARRITO") 
+
+            const carritoNuevo = {
+                productos: [],
+                timestamp: Date.now()
+            }
+
+            const carritoSaveModel = new Carrito(carritoNuevo)
+            let carritoSave = await carritoSaveModel.save()
+            console.log(carritoSave)
+
+            return await carritoSave._id
         }
         catch(error) {
             console.log(error.message)
@@ -31,10 +42,9 @@ module.exports = class CarritosDaoMongoDB extends ContenedorMongodb {
 
     async guardarEnCarrito(carritoId,id) {
         try{
-            console.log("producto guardado en carrito")
             const productoElegido = await Producto.findOne({_id:id})
-            await Carrito.findByIdAndUpdate(carritoId, {$push: {"productos": productoElegido}}) 
-            return Carrito.find()           
+            await Carrito.findByIdAndUpdate(carritoId , {$push: {"productos": productoElegido}}) 
+            return await Carrito.find()           
         }
         catch(error) {
             console.log(error.message)

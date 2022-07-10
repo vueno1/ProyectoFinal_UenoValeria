@@ -3,6 +3,17 @@ const { misProductos } = require("../daos/index")
 const { Router } = require('express');
 const router = Router();
 
+router.get("/", async (req,res) =>{
+    try {
+        res.send ({
+            misProductos: await misProductos.mostrarTodo()
+        })
+
+    }catch (e) {
+        console.log(e)
+    }
+})
+
 router.post('/', async (req, res) => {
     const producto = await req.body
     const productos = await misProductos.guardar(producto)

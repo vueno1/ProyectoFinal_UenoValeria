@@ -5,22 +5,9 @@ const Usuario = require('../models/user')
 const passport = require('../passport/passport')
 require("../config/mongoose")
 const { miCarrito, misProductos } = require("../daos/index")
-const mongoose = require("mongoose")
 const {createTransport} = require("nodemailer")
 const twilioClient = require("../twilio/twilio")
 require("dotenv").config() 
-const multer = require("multer")
-
-const filesStorageEngine = multer.diskStorage({
-    destination:(req, file, cb) =>{
-        cb(null, "../../public")
-    },
-    filename: (req, file, cb) =>{
-        cb(null, Date.now() + '--' + file.originalname)
-    }
-})
-
-const upload = multer({storage:filesStorageEngine})
 
 const mailAdministrador = process.env.MAIL_ADMIN
 const contraseñaAdminMail = process.env.PASS_ADMIN
@@ -32,10 +19,9 @@ const transporter = createTransport({
         user: mailAdministrador,
         pass: contraseñaAdminMail
     }
-});
+})
 
 const log4js = require("../logs/log")
-const Carrito = require('../models/CarritoModel')
 const logger = log4js.getLogger()
 const loggerwarnFile = log4js.getLogger("archivo");
 
@@ -76,7 +62,7 @@ router.get("/register",  (req, res) => {
     }
 })
 
-router.post("/register", upload.array("myfiles", 12) ,async (req,res) =>{
+router.post("/register" ,async (req,res) =>{
     try{
         const usuariosRegistrados = await Usuario.find()
         const { email,
@@ -107,16 +93,14 @@ router.post("/register", upload.array("myfiles", 12) ,async (req,res) =>{
         
         await user.save()
 
-        const mailOptions = {
+        const mailUsuarioNuevo = {
             from: "servidor",
             to: mailAdministrador,
             subject: "nuevo Usuario Registrado",
             html: `datos del usuario: ${user}`
         }
-        
-        console.log(req.files.avatar)
 
-        await transporter.sendMail(mailOptions)
+        await transporter.sendMail(mailUsuarioNuevo)
         logger.info("mail enviado!")
         logger.info("usuario guardado!")
         res.redirect("/login")
@@ -128,16 +112,19 @@ router.post("/register", upload.array("myfiles", 12) ,async (req,res) =>{
 
 router.get("/index", async (req, res) => {
     try{   
+        logger.info("usted esta en el index")
         const productos = await misProductos.mostrarTodo()
         const user = await Usuario.findById({
             _id: req.user._id
         })
+        
+        const carrito = await miCarrito.mostrarTodo()
 
-        logger.info("usted esta en el index")
         res.render("index", {
             nombre: user.name,
             avatar: user.avatar,
-            productos: productos
+            productos: productos,
+            carrito: carrito
         })
     }
     catch(error){
@@ -145,18 +132,54 @@ router.get("/index", async (req, res) => {
     }
 })
 
+router.get("/enviarMail" , async (req,res) =>{
+    try {
+        const carrito = await miCarrito.mostrarTodo()
+        const user = await Usuario.findById({
+            _id: req.user._id
+        })
+
+        if(carrito.length >=1) {
+            const mailPedidos = {
+                from: "servidor",
+                to: mailAdministrador,
+                subject: `pedido del usuario = ${user.email}`,
+                html: `datos del pedido = ${carrito}`
+            }
+            await transporter.sendMail(mailPedidos)
+            logger.info("pedido enviado x mail")
+
+            twilioClient.messages
+            .create({
+                body: `${user.email} realizo un pedido`,
+                from: process.env.TWILIO_PHONE,
+                to: process.env.WHATSAPP
+            })
+            .then(message => console.log(message.sid))
+            .done()
+        }
+        res.redirect("/index")
+
+
+    } catch(e) {
+        console.log(e)
+    }
+})
+
 router.get("/logout", async (req, res) => {
     try {
         logger.info("gracias por su visita!")
-        req.session.destroy()
-        // const carrito = await miCarrito.mostrarTodoCarrito()
-        // const carritoId = carrito.forEach(e => mongoose.Types.ObjectId(e._id).valueOf())
-        // await miCarrito.borrarCarritoPorId(carritoId)        
+        req.session.destroy() 
+        const carrito = await miCarrito.mostrarCarrito()
+        if(carrito) {
+            await miCarrito.borrarCarritoPorId(carrito._id)     
+        }
         res.redirect("/login")
+        
     }
     catch(error){
         loggerwarnFile.warn(`warning = ${error}`)
     }
 }) 
 
-module.exports = router;
+module.exports = router; 

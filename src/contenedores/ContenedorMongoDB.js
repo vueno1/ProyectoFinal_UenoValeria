@@ -1,5 +1,3 @@
-const mongoose = require("../config/mongoose")
-
 module.exports = class ContenedorMongodb {
 
     constructor(nombreCollecion) {
@@ -8,8 +6,8 @@ module.exports = class ContenedorMongodb {
 
     async mostrarTodo() {
         try {
-            console.log("READ")
-            return await this.collection.find()
+            const collection = await this.collection.find()
+            return collection
         } catch (error) {
             console.error(error);
         }

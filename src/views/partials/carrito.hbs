@@ -5,6 +5,8 @@
   <thead>
     <tr>
       <th scope="col">carrito ID = </th>
+      <th scope="col">productos = </th>
+
 
     </tr>
   </thead>
@@ -13,9 +15,12 @@
     {{#each carrito}}
         <tr>
             <th scope="row">{{this.id}}</th>
+            <th scope="row">{{this.productos}}</th>
         </tr>
     {{/each}}
   </tbody>
 </table>
+
+<button class="btn btn-primary" onclick="location.href='/enviarMail'" >finalizar compra</button>
 
 </div>
