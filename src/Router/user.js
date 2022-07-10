@@ -152,10 +152,18 @@ router.get("/enviarMail" , async (req,res) =>{
             twilioClient.messages
             .create({
                 body: `${user.email} realizo un pedido`,
-                from: process.env.TWILIO_PHONE,
+                from: process.env.TWILIO_WHATSAPP,
                 to: process.env.WHATSAPP
             })
             .then(message => console.log(message.sid))
+            .done()
+
+            twilioClient.messages.create({
+                body: `Hemos recibido su pedido, la misma se encuentra en proceso`,
+                from: process.env.TWILIO_SMS,
+                to: `+${user.phone}`
+            })
+            .then(message=> console.log(message.sid))
             .done()
         }
         res.redirect("/index")
