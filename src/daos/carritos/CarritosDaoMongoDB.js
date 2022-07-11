@@ -1,4 +1,4 @@
-const ContenedorMongodb = require("../../contenedores/ContenedorMongodb")
+const ContenedorMongodb = require("../../contenedores/contenedorMongodb")
 const Carrito = require("../../models/CarritoModel")
 const Producto = require("../../models/ProductosModel")
 
