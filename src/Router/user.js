@@ -9,6 +9,7 @@ const twilioClient = require("../config/twilio")
 require("dotenv").config() 
 const transporter = require("../config/nodemailer")
 const mailAdministrador = process.env.MAIL_ADMIN
+const upload = require("../config/multer")
 
 const log4js = require("../config/log")
 const logger = log4js.getLogger()
@@ -48,28 +49,28 @@ router.get("/register",  (req, res) => {
     }
 })
 
-router.post("/register" ,async (req,res) =>{
-    try{
+router.post("/register" , upload.single("avatar"), async (req,res) =>{
+    try{        
         const usuariosRegistrados = await Usuario.find()
         const { email,
-                password,
+            password,
                 name,
                 address, 
                 age, 
                 phone, 
                 avatar
-              } = await req.body
-
-        if(usuariosRegistrados.find(usuario => usuario.email === email)){
-            logger.warn("el usuario ya esta registrado!")
-            res.render("register_error")
-        }        
-        const salt = await bcrypt.genSalt(10) //ejecuta el algoritmo 10 veces.
-        const hash = await bcrypt.hash(password, salt)
-
-        const user = new Usuario({
-            email: email, 
-            password: hash,
+            } = await req.body
+            
+            if(usuariosRegistrados.find(usuario => usuario.email === email)){
+                logger.warn("el usuario ya esta registrado!")
+                res.render("register_error")
+            }        
+            const salt = await bcrypt.genSalt(10) //ejecuta el algoritmo 10 veces.
+            const hash = await bcrypt.hash(password, salt)
+            
+            const user = new Usuario({
+                email: email, 
+                password: hash,
             name: name,
             address: address,
             age: age, 
@@ -86,6 +87,10 @@ router.post("/register" ,async (req,res) =>{
         }
         await transporter.sendMail(mailUsuarioNuevo)
         logger.info("informacion enviada por mail al administrador")
+
+        const file = req.file
+        console.log(file)
+        
         res.redirect("/login")
     }
     catch(error){
