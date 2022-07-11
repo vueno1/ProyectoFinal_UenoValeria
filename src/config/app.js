@@ -1,8 +1,8 @@
 const express = require ('express');
 const app = express()
-const productos = require("../router/productos") 
-const carrito = require("../router/carrito") 
-const usuario = require("../router/user")
+const productos = require("../Router_old/productos") 
+const carrito = require("../Router_old/carrito") 
+const usuario = require("../Router_old/user")
 const path = require("path")
 const exphbs = require("express-handlebars")
 const passport = require("../config/passport")
