@@ -8,7 +8,6 @@ const { miCarrito, misProductos } = require("../daos/index")
 const twilioClient = require("../config/twilio")
 require("dotenv").config() 
 const transporter = require("../config/nodemailer")
-const mailAdministrador = process.env.MAIL_ADMIN
 const upload = require("../config/multer")
 
 const log4js = require("../config/log")
@@ -81,15 +80,12 @@ router.post("/register" , upload.single("avatar"), async (req,res) =>{
 
         const mailUsuarioNuevo = {
             from: "servidor",
-            to: mailAdministrador,
+            to: process.env.MAIL_ADMIN,
             subject: "nuevo Usuario Registrado",
             html: `datos del usuario: ${user}`
         }
         await transporter.sendMail(mailUsuarioNuevo)
-        logger.info("informacion enviada por mail al administrador")
-
-        const file = req.file
-        console.log(file)
+        logger.info("informacion enviada por mail al administrador")    
         
         res.redirect("/login")
     }
@@ -127,7 +123,7 @@ router.get("/enviarMensajes" , async (req,res) =>{
         if(carrito.length >=1) {
             const mailPedidos = {
                 from: "servidor",
-                to: mailAdministrador,
+                to: process.env.MAIL_ADMIN,
                 subject: `pedido del usuario = ${user.email}`,
                 html: `datos del pedido = ${carrito}`
             }

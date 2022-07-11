@@ -1,14 +1,14 @@
 const {createTransport} = require("nodemailer")
-
-const mailAdministrador = process.env.MAIL_ADMIN
-const contraseñaAdminMail = process.env.PASS_ADMIN
+require("dotenv").config()
 
 const transporter = createTransport({
-    host: 'smtp.ethereal.email',
+    service:"gmail",
+    // host: 'smtp.gmail.com',
     port: 587,
+    // secure: false,
     auth: {
-        user: mailAdministrador,
-        pass: contraseñaAdminMail
+        user: process.env.MAIL_ADMIN,
+        pass: process.env.PASS_ADMIN
     }
 })
 
