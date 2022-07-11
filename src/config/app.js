@@ -1,6 +1,6 @@
 const express = require ('express');
 const app = express()
-const productos = require("../rutas/productos") 
+const productos = require("../rutas/productos.js") 
 const carrito = require("../rutas/carrito") 
 const usuario = require("../rutas/user")
 const path = require("path")

@@ -1,4 +1,4 @@
-const { misProductos } = require("../daos/index")
+const { misProductos } = require("../daos/index.js")
 const { Router } = require('express');
 const router = Router();
 

@@ -1,4 +1,4 @@
-const ProductosDaoMongoDB = require("./productos/productodao")
+const ProductosDaoMongoDB = require("./productos/productodao.js")
 const CarritosDaoMongoDB = require("./carritos/carritodao")
 
 const misProductos = new ProductosDaoMongoDB()
